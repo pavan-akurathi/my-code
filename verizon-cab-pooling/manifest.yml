@@ -1,0 +1,8 @@
+---
+applications:
+- name: verizon-cab-pooling
+  memory: 1024M
+  host: verizon-cab-pooling
+  domain: cfapps.io
+  services:
+  - dev-mongodb
