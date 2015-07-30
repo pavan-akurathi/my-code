@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html class="vz-theme">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Car Pooling System</title>
+<LINK href="resources/jquery-contextmenu.css"
+	rel="stylesheet" type="text/css">
+<LINK href="resources/jquery.jscrollpane.css"
+	rel="stylesheet" type="text/css">
+<LINK href="resources/Default.htm.style.min.css"
+	rel="stylesheet" type="text/css">
+<LINK href="resources/custom.style.css"
+	rel="stylesheet" type="text/css">
+
+</head>
+<body class="isIE" style="cursor: default;">
+
+
+<div class="header">
+<div class="layout">
+<div class="VZlogo"><IMG title="Verizon" alt="Verizon"
+	src="resources/VerizonLogo.png" width = "110%" height = "110%" ></div>
+<div class="app-name">Car Pooling System</div>
+<div class="app-support">&nbsp;<BR>
+Email: <A href="mailto:VDSI-CarPoolingSystem@one.verizon.com">VDSI-CarPoolingSystem@one.verizon.com</A><BR>
+&nbsp;<BR>
+</div>
+</div>
+</div>
+
+<div class="mast">
+<div class="layout">
+<div class="mast-content"></div>
+</div>
+</div>
+
+<div class="layout">
+<div class="login-content">
+<div class="left">
+<div class="signin-block">
+<div class="login-text">Sign in with your Windows User ID and
+Password.</div>
+
+<div id="logonbox-container">
+<div id="logonbox-innerbox">
+<div id="logonbox-logonform">
+<form id = "loginForm" class="form insertPoint credentialform" action = "login.do">
+<div class="field CredentialTypeusername">
+<div class="left"><label class="label plain" for="username">User
+name:</label></div>
+<div class="right"><input name="username" id="username"
+	spellcheck="false" type="text" autocomplete="off"></div>
+</div>
+<div class="field CredentialTypepassword">
+<div class="left"><label class="label plain" for="password">Password:</label></div>
+<div class="right"><input name="password" id="password"
+	spellcheck="false" type="password" autocomplete="off"></div>
+</div>
+<div class="field CredentialTypedomain">
+<div class="left"><label class="label plain" for="domain">Domain:</label></div>
+<div class="right"><select name="domain" id="domain">
+	<option selected="selected" value="VDSI">VDSI</option>
+</select></div>
+</div>
+<div class="field CredentialTypesavecredentials" style="display: none;">
+<div class="right checkbox"><input name="saveCredentials"
+	id="saveCredentials" type="checkbox" value="saveCredentials"><label
+	class="label plain" for="saveCredentials">Remember my password</label></div>
+</div>
+<div class="field buttonsrow">
+<div class="buttonscontainer right"><a class="button"
+	id="loginBtn" onkeypress="login();" onclick= "login();" >Log On</a></div>
+<div class="spinner" style="visibility: hidden;"><img alt=""
+	src="media/Loader.gif"></div>
+</div>
+<div class="spacer"></div>
+</form>
+</div>
+<div id="logonbox-choices"><!-- placeholder where the first-time-use choices screen will be generated -->
+</div>
+</div>
+</div>
+<hr>
+<!-- Start Quick Links  -->
+<div class="block">
+<h1>Support Numbers</h1>
+<div class="text">
+<ul class="quick-links">
+	<li><b>HelpDesk Support (HYDERABAD):</b>
+	<div style="padding-left: 100px;">040 - 4400 5949 (Titus)</div>
+	<div style="padding-left: 100px;">040 - 4400 7100 (Orion)</div>
+	</li>
+	<li><b>HelpDesk Support (CHENNAI): </b>
+	<div style="padding-left: 100px;">044 - 4394 0700 (Olympia)</div>
+	<div style="padding-left: 100px;">044 - 6682 6200 (Rmz)</div>
+	</li>
+</ul>
+<br>
+<br>
+</div>
+</div>
+<!-- End Quick Links --></div>
+<div class="links-info"><!-- Start Notification -->
+<div class="block">
+<h1>VDSI Car Pooling System</h1>
+Dear All, Verizon Data Services India Private Limited ("VDSI") takes safety and
+security very seriously. As a result, VDSI provides On-site workers with
+Transport Services during Night time Hours.
+<div class="text"></div>
+</div>
+<!-- End Notification -->
+<hr>
+<!-- Start About the CA  -->
+<div class="block">
+<h1>About the CA</h1>
+<div class="text">No Change Activity.</div>
+</div>
+<!-- End About the CA --></div>
+</div>
+</div>
+<script type="text/javascript">
+	function login()
+	{
+		
+		var userName = document.getElementById('username').value;
+		var password = document.getElementById("password").value;
+		
+		if(userName != null && userName != '' && password != null && password != ''){
+			document.getElementById('loginForm').submit();
+		}else if(userName == null || userName == ''){
+			alert("Please enter your User Name");
+		}else{
+			alert("Please enter your Password");
+		}
+	}
+</script>
+
+
+</body>
+</html>
