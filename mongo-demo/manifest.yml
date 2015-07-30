@@ -1,0 +1,11 @@
+---
+applications:
+- name: mongo-demo-pakurathi
+  memory: 512M
+  host: mongo-demo-pakurathi
+  domain: cfapps.io
+  path: pre-built/mongo-demo-0.0.1-SNAPSHOT.war
+  env:
+    owner: pavan
+  services:
+  - dev-mongodb

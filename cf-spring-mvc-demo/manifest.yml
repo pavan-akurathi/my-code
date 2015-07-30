@@ -1,0 +1,17 @@
+---
+applications:
+- name: cf-spring-mvc-demo-pakurathi
+  memory: 512M
+  host: cf-spring-mvc-demo-pakurathi
+  domain: cfapps.io
+  path: pre-built/cf-spring-mvc-demo-0.0.1-SNAPSHOT.war
+  env:
+    owner: pavan
+  services:
+  - dev-mongodb
+- name: cf-spring-mvc-demo
+  memory: 256M
+  host: cf-spring-mvc-demo-pa
+  domain: cfapps.io
+  services:
+  - dev-mongodb
