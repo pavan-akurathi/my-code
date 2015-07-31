@@ -42,9 +42,12 @@
         $("#estStartTimeHour").attr('min', 0);
         $("#estStartTimeHour").attr('max', 60);
         
-        if(document.getElementById('poolType').value != null
-				&& document.getElementById('poolType').value == 'rdNeed'){
-			document.getElementById('vehicleDtls').style.display = "none";
+        if(document.getElementById('rdNeed').checked){
+			document.getElementById('vechTypeSec').style.display = 'none';
+			document.getElementById('vechCapSec').style.display = 'none';
+		}else{
+			document.getElementById('vechTypeSec').style.display = 'block';
+			document.getElementById('vechCapSec').style.display = 'block';
 		}
      });
 	
@@ -56,9 +59,12 @@
 	
 	function fnCheck()
 	{
-		if(document.getElementById('poolType').value != null
-				&& document.getElementById('poolType').value == 'rdNeed'){
-			document.getElementById('vehicleDtls').style.display = "none";
+		if(document.getElementById('rdNeed').checked){
+			document.getElementById('vechTypeSec').style.display = 'none';
+			document.getElementById('vechCapSec').style.display = 'none';
+		}else{
+			document.getElementById('vechTypeSec').style.display = 'block';
+			document.getElementById('vechCapSec').style.display = 'block';
 		}
 	}
 
@@ -128,30 +134,28 @@
 						<td colspan="2">
 							<section>
 							
-								<input onclick="fnCheck();" id="rdProvide" checked class=radio type=radio value="rdProvide" name="poolType">
+								<input onclick="fnCheck(this);" id="rdProvide" checked class=radio type=radio value="rdProvide" name="poolType">
 								<label style="font-weight:bold;">Provide   </label>
 								
-								<input onclick="fnCheck();" id="rdNeed" class=radio  type=radio value="rdNeed" name="poolType">
+								<input onclick="fnCheck(this);" id="rdNeed" class=radio  type=radio value="rdNeed" name="poolType">
 								<label style="font-weight:bold;">Need  </label>
 								
 							</section>
 						</td>
 					</tr>
 					<tr>
-						<div id = "vehicleDtls">
-							<td >
-								<section  class="controlSection">
-									<label class="controlLabel">Vehicle Type :  </label> 
-									<input type ="text"  onclick="fnVehicle(this);" id="vehicleType" class="vehicleType" >
-								</section>
-							</td>
-							<td >
-								<section  class="controlSection">
-									<label class="controlLabel">Capacity :  </label> 
-									<input type ="text" id="capacity" class="capacity" >
-								</section>
-							</td>
-						</div>
+						<td >
+							<section  id = "vechTypeSec" class="controlSection">
+								<label class="controlLabel">Vehicle Type :  </label> 
+								<input type ="text"  onclick="fnVehicle(this);" id="vehicleType" class="vehicleType" >
+							</section>
+						</td>
+						<td >
+							<section  id = "vechCapSec" class="controlSection">
+								<label class="controlLabel">Capacity :  </label> 
+								<input type ="text" id="capacity" class="capacity" >
+							</section>
+						</td>
 						
 					</tr>
 					
