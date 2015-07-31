@@ -38,7 +38,7 @@
 	margin: 70px 0px 0px 20px; font-family: ApexMedium, sans-serif, Arial, Helvetica; font-size: 28px; float: left;
 }
 .vz-theme .app-support {
-	background: url("../media/ico-support.png") no-repeat 0px 2px; margin: 20px 0px 0px; padding: 0px 0px 0px 50px; font-family: ApexMedium, sans-serif, Arial, Helvetica; font-size: 16px; float: right;
+	background: url("../media/helpIcon.png") no-repeat; margin: 20px 0px 0px; padding: 0px 0px 0px 50px; font-family: ApexMedium, sans-serif, Arial, Helvetica; font-size: 16px; float: right;
 }
 .vz-theme .app-support {
 	color: rgb(109, 110, 113);
@@ -307,4 +307,67 @@
 }
 .vz-theme .note-monitor {
 	margin: 20px 0px 0px 25px; border: 1px solid black; color: black; font-family: ApexMedium, sans-serif, Arial, Helvetica; font-size: 18px; float: left; background-color: yellow;
+}
+
+.container
+{
+	height:auto;
+}
+.empInfo
+{
+	width:90%;
+	border: 1px solid silver;
+	border-radius: 5px;
+}
+.poolingInfo
+{
+	width:90%;
+	border: 1px solid silver;
+	border-radius: 5px;
+	hight: 800px;
+}
+.legend
+{
+	font-weight: bold;
+	font-size:16px;
+	color: navy;	
+}
+.readOnlySection
+{
+	width: 50%;
+	float: left;
+	padding-bottom: 5px;
+	padding-top: 5px;
+	margin: 0 auto;
+}
+.controlSection
+{
+	font-weight: bold;
+	font-size:12px;
+	width: 100%;
+	float: left;
+	padding-bottom: 5px;
+	padding-top: 5px;
+	margin: 0 auto;
+	
+}
+
+.readOnlyLabel
+{
+	width:30%;
+	font-weight:bold;
+	padding-right: 5%;
+}
+.controlLabel
+{
+	
+	padding-right: 5%;
+	width:30%;
+	float:left;
+	
+}
+
+.weekly
+{
+	display:none;
 }

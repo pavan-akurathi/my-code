@@ -2,7 +2,7 @@ package com.verizon.cab.management.util;
 
 public class MapUtil {
 
-	private List<LatLng> decodePoly(String encoded) {
+	/*private List<LatLng> decodePoly(String encoded) {
 
 	    List<LatLng> poly = new ArrayList<LatLng>();
 	    int index = 0, len = encoded.length();
@@ -58,5 +58,5 @@ public class MapUtil {
 	JSONObject overviewPolylines = routes.getJSONObject("overview_polyline");
 	String encodedString = overviewPolylines.getString("points");
 	List<GeoPoint> pointToDraw = decodePoly(encodedString);
-	
+	*/
 }

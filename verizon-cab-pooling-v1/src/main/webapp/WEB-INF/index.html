@@ -1,8 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html class="vz-theme">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Cab Management System</title>
+<title>Car Pooling System</title>
 <LINK href="resources/jquery-contextmenu.css"
 	rel="stylesheet" type="text/css">
 <LINK href="resources/jquery.jscrollpane.css"
@@ -20,9 +20,9 @@
 <div class="layout">
 <div class="VZlogo"><IMG title="Verizon" alt="Verizon"
 	src="resources/VerizonLogo.png" width = "110%" height = "110%" ></div>
-<div class="app-name">Cab Management System</div>
+<div class="app-name">Car Pooling System</div>
 <div class="app-support">&nbsp;<BR>
-Email: <A href="mailto:VDSI-CabManagementSystem@one.verizon.com">VDSI-CabManagementSystem@one.verizon.com</A><BR>
+Email: <A href="mailto:VDSI-CarPoolingSystem@one.verizon.com">VDSI-CarPoolingSystem@one.verizon.com</A><BR>
 &nbsp;<BR>
 </div>
 </div>
@@ -44,7 +44,7 @@ Password.</div>
 <div id="logonbox-container">
 <div id="logonbox-innerbox">
 <div id="logonbox-logonform">
-<form id = "loginForm" class="form insertPoint credentialform" action = "login">
+<form id = "loginForm" class="form insertPoint credentialform" action = "login.do">
 <div class="field CredentialTypeusername">
 <div class="left"><label class="label plain" for="username">User
 name:</label></div>
@@ -102,7 +102,7 @@ name:</label></div>
 <!-- End Quick Links --></div>
 <div class="links-info"><!-- Start Notification -->
 <div class="block">
-<h1>VDSI Cab Management System</h1>
+<h1>VDSI Car Pooling System</h1>
 Dear All, Verizon Data Services India Private Limited ("VDSI") takes safety and
 security very seriously. As a result, VDSI provides On-site workers with
 Transport Services during Night time Hours.
@@ -121,7 +121,7 @@ Transport Services during Night time Hours.
 <script type="text/javascript">
 	function login()
 	{
-		alert("JAI LAKSHMI NARASIMHA SWAMY");
+		
 		var userName = document.getElementById('username').value;
 		var password = document.getElementById("password").value;
 		

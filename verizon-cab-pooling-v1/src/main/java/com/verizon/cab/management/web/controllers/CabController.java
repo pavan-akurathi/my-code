@@ -124,7 +124,7 @@ public class CabController {
 	    cabRepository.save(update);	
 	    */	
 		
-		double lat1 = 17.438891;
+		/*double lat1 = 17.438891;
 		   double lon1 = 78.381100;
 		   double lat2 = 17.493686;
 		   double lon2 = 78.340129;
@@ -145,7 +145,7 @@ public class CabController {
 		   logger.info("response:: "+responseString);
 		   }catch(Exception e){
 			   logger.info("exception in httpget");
-		   }
+		   }*/
 		
 		return "index";
 	}

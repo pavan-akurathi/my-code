@@ -5,12 +5,12 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>io.pivotal.cf</groupId>
-	<artifactId>spring-music</artifactId>
+	<groupId>com.verizon.cab</groupId>
+	<artifactId>verizon-car-pooling</artifactId>
 	<version>1.0.0</version>
 
-	<name>spring-music</name>
-	<description>Spring Sample Application </description>
+	<name>verizon-car-pooling</name>
+	<description>Verizon Car Pooling Application </description>
 	<packaging>war</packaging>
 
 	<dependencies>

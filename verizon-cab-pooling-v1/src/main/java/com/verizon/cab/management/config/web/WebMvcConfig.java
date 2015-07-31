@@ -21,7 +21,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     public InternalResourceViewResolver internalResourceViewResolver() {
         InternalResourceViewResolver internalResourceViewResolver = new InternalResourceViewResolver();
         internalResourceViewResolver.setPrefix("/WEB-INF/");
-        internalResourceViewResolver.setSuffix(".html");
+        internalResourceViewResolver.setSuffix("");
         return internalResourceViewResolver;
     }
 
