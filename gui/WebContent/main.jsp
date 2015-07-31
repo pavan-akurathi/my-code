@@ -1,3 +1,4 @@
+<!-- saved from url=(0014)about:internet -->
 <!DOCTYPE html>
 <html class="vz-theme">
 <head>
@@ -22,8 +23,8 @@
 			</div>
 			<div class="app-name">Car Pooling System</div>
 			<div class="app-support">
-				&nbsp;<br> Email: <a
-					href="mailto:VDSI-CarPoolingSystem@one.verizon.com">VDSI-CarPoolingSystem@one.verizon.com</a><br>
+				&nbsp;&nbsp;<br> Email: <a
+					href="mailto:VDSI-CarPoolingSystem@one.verizon.com">VDSI-CarPoolingSystem@verizon.com</a><br>
 				&nbsp;<br>
 			</div>
 		</div>
@@ -44,7 +45,11 @@
 			</tr>
 		</table>
 	</div>
-
+	<div class="footer">
+	   <div class="layout">
+	       <div class="copyrights">&copy; 2015 Designed by Team Hackers (Surendra Ganti, Pavan Akurathi, Pavan Sathya) <a href="#">FAQ</a> |  <a href="#">Feedback</a></div>
+	   </div>
+	</div>
 
 </body>
 </html>

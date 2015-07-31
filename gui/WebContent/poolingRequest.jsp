@@ -168,18 +168,12 @@
 				</table>
 				
 			</fieldset>
-			
 			<div id="btnContainer" class="btnContainer">
 				<input type = "button" value="Submit" onclick = "javascript: submitRequest();"style = "background-color: rgb(231, 28, 36); color : white; FLOAT: left; MARGIN-LEFT: 5px;">
 			</div>
 		
 			
-		</div>
-		
-		
-		
-		<div id="avlVehicles" class="avlVehicles"> </div>
-		
+		</div>		
 	
 	</div>
 	<input type= "hidden" id ="userLocation" name = "userLocation" value = "">

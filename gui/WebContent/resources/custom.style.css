@@ -34,14 +34,14 @@
 .vz-theme .VZlogo {
 	width: 108px; height: 109px; float: left;
 }
+.vz-theme .VZFooter {
+	width: 108px; height: 109px; float: right;
+}
 .vz-theme .app-name {
 	margin: 70px 0px 0px 20px; font-family: ApexMedium, sans-serif, Arial, Helvetica; font-size: 28px; float: left;
 }
 .vz-theme .app-support {
-	background: url("../media/helpIcon.png") no-repeat; margin: 20px 0px 0px; padding: 0px 0px 0px 50px; font-family: ApexMedium, sans-serif, Arial, Helvetica; font-size: 16px; float: right;
-}
-.vz-theme .app-support {
-	color: rgb(109, 110, 113);
+	background: url("../media/Chat.png") no-repeat; margin: 20px 0px 0px; padding: 0px 0px 0px 50px; font-family: ApexMedium, sans-serif, Arial, Helvetica; font-size: 16px; float: right;
 }
 .vz-theme .app-support a {
 	color: rgb(109, 110, 113);
