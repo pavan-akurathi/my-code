@@ -24,18 +24,15 @@
 
 
 	<script>
+	// Default Loc : 17.439037,78.381209
+	var latLong = '<%=userLocation>';
+	var latitude = latLong.split(",")[0];
+	var longitude = latLong.split(",")[1];
 	$(document).ready(function(){
         $( "#startDate" ).datepicker({
            appendText:"(dd-mm-yy)",
            dateFormat:"dd-mm-yy"
         });
-        
-        /*
-        $( "#endDate" ).datepicker({
-            appendText:"(dd-mm-yy)",
-            dateFormat:"dd-mm-yy"
-         });
-        */
         
         $("#estStartTimeHour" ).spinner();
         $("#estStartTimeHour").attr('min', 0);
@@ -49,6 +46,7 @@
 	
 	function submitRequest()
 	{
+		document.getElementById('userLocation').value = latLong;
 		document.getElementById('poolRequest').submit();
 	}
 
@@ -102,23 +100,15 @@
 						<td >
 							<section  class="controlSection">
 								<label class="controlLabel">Start Date :  </label> 
-								<input type ="date"  onclick="fnDate(this);" id="startDate" class="startDate" >
+								<input type ="date"  onclick="fnDate(this);" id="startDate" name = "startDate" class="startDate" >
 							</section>
 						</td>
-						<!--
-						<td >
-							<section  class="controlSection">
-								<label class="controlLabel">End Date :  </label> 
-								<input type ="date" onclick="fnDate(this);" id="endDate" class="endDate" >
-							</section>
-						</td>
-						-->
 						
 						<td >
 							<section  class="controlSection">
 								<label class="controlLabel">Estimated Start Time (hh:mm) :  </label> 
-								<input type ="text"   id="estStartTimeHour" class="estStartTimeHour" value="0"> :
-								<input type ="text"   id="estStartTimeMins" class="estStartTimeMins" value="0"> 
+								<input type ="text" id="estStartTimeHour" name = "estStartTimeHour" class="estStartTimeHour" value="0"> :
+								<input type ="text" id="estStartTimeMins" name = "estStartTimeMins" class="estStartTimeMins" value="0"> 
 							</section>
 						</td>
 					</tr>
@@ -152,39 +142,10 @@
 					
 					<tr>
 						<td colspan="2">
-							<section >
-								 
-								<input onclick="fnCheck('rdnonetime');" id=pick class=radio checked type=radio value=pic name=requestType>
-								<label style="font-weight:bold;">Pick   </label>
-								 
-								<input onclick="fnCheck('rdnweekly');" id=drop class=radio type=radio value=drop name=requestType>
-								<label style="font-weight:bold;">Drop  </label>
-							</section>
-						</td>
-					</tr>
-					
-					<tr>
-						<td colspan="2">
 							<jsp:include page="GMaps.jsp" />
 						</td>
 					</tr>
 					
-					<!--  <tr>
-						<td >
-							<section  class="controlSection">
-								<label class="controlLabel">Source :  </label> 
-								<input type ="text"  onclick="fnDisplayMapWindow(this);" id="source" class="source" >
-							</section>
-						</td>
-						<td >
-							<section  class="controlSection">
-								<label class="controlLabel">Destination :  </label> 
-								<input type ="text" onclick="fnDisplayMapWindow(this);" id="destination" class="destination" >
-							</section>
-						</td>
-					</tr> -->
-					
-				
 				</table>
 				
 			</fieldset>
@@ -201,7 +162,7 @@
 		
 	
 	</div>
-	<input type= "hidden" id ="userLocation" name = "userLocation">
+	<input type= "hidden" id ="userLocation" name = "userLocation" value = "">
 	
 	</form>
 </body>
