@@ -25,7 +25,7 @@
 
 	<script>
 	// Default Loc : 17.439037,78.381209
-	var latLong = '<%=userLocation>';
+	var latLong = "17.439037,78.381209";
 	var latitude = latLong.split(",")[0];
 	var longitude = latLong.split(",")[1];
 	$(document).ready(function(){
@@ -42,6 +42,10 @@
         $("#estStartTimeHour").attr('min', 0);
         $("#estStartTimeHour").attr('max', 60);
         
+        if(document.getElementById('poolType').value != null
+				&& document.getElementById('poolType').value == 'rdNeed'){
+			document.getElementById('vehicleDtls').style.display = "none";
+		}
      });
 	
 	function submitRequest()
@@ -49,12 +53,20 @@
 		document.getElementById('userLocation').value = latLong;
 		document.getElementById('poolRequest').submit();
 	}
+	
+	function fnCheck()
+	{
+		if(document.getElementById('poolType').value != null
+				&& document.getElementById('poolType').value == 'rdNeed'){
+			document.getElementById('vehicleDtls').style.display = "none";
+		}
+	}
 
 	</script>
 
 </head>
 
-<body class="isIE" style="cursor: default;" onload="fnOnload()">
+<body class="isIE" style="cursor: default;" >
 	<form action = "raiseRequest.do" id = "poolRequest" method="get">
 	<div id="container" class="container">
 		
@@ -71,13 +83,13 @@
 					<label  class="readOnlyLabel">E-mail : </label> <label>surendra.ganti@one.verizon.com</label>
 				</section>
 				<section class="readOnlySection">
-					<label  class="readOnlyLabel">Supervisor Name : </label> <label>Preetha,Philip</label>
+					<label  class="readOnlyLabel">Current Pool : </label> <label>Preetha,Philip</label>
 				</section>
 			</fieldset>
 		</div>
 			
 		
-		<div id="poolingInfo" class="poolingInfo">
+		<div id="poolingRequest" class="poolingRequest">
 			
 			<fieldset class="piempInfo">
 				<legend class="legend">Car Pooling Details</legend>
@@ -116,47 +128,51 @@
 						<td colspan="2">
 							<section>
 							
-								<input onclick="fnCheck('rdnonetime');" id="rdNeed" class=radio checked type=radio value="rdNeed" name="poolType">
+								<input onclick="fnCheck();" id="rdProvide" checked class=radio type=radio value="rdProvide" name="poolType">
+								<label style="font-weight:bold;">Provide   </label>
+								
+								<input onclick="fnCheck();" id="rdNeed" class=radio  type=radio value="rdNeed" name="poolType">
 								<label style="font-weight:bold;">Need  </label>
 								
-								<input onclick="fnCheck('rdnonetime');" id="rdProvide" class=radio type=radio value="rdProvide" name="poolType">
-								<label style="font-weight:bold;">Provide   </label>
-							
 							</section>
 						</td>
 					</tr>
 					<tr>
-						<td >
-							<section  class="controlSection">
-								<label class="controlLabel">Vehicle Type :  </label> 
-								<input type ="text"  onclick="fnVehicle(this);" id="vehicleType" class="vehicleType" >
-							</section>
-						</td>
-						<td >
-							<section  class="controlSection">
-								<label class="controlLabel">Capacity :  </label> 
-								<input type ="text" id="capacity" class="capacity" >
-							</section>
-						</td>
+						<div id = "vehicleDtls">
+							<td >
+								<section  class="controlSection">
+									<label class="controlLabel">Vehicle Type :  </label> 
+									<input type ="text"  onclick="fnVehicle(this);" id="vehicleType" class="vehicleType" >
+								</section>
+							</td>
+							<td >
+								<section  class="controlSection">
+									<label class="controlLabel">Capacity :  </label> 
+									<input type ="text" id="capacity" class="capacity" >
+								</section>
+							</td>
+						</div>
+						
 					</tr>
 					
-					<tr>
-						<td colspan="2">
+					 <tr>
+						<td colspan="2" >
 							<jsp:include page="GMaps.jsp" />
 						</td>
-					</tr>
+					</tr> 
 					
 				</table>
 				
 			</fieldset>
 			
-			
-		</div>
-		<div id="btnContainer" class="btnContainer">
-			<div>
+			<div id="btnContainer" class="btnContainer">
 				<input type = "button" value="Submit" onclick = "javascript: submitRequest();"style = "background-color: rgb(231, 28, 36); color : white; FLOAT: left; MARGIN-LEFT: 5px;">
 			</div>
+		
+			
 		</div>
+		
+		
 		
 		<div id="avlVehicles" class="avlVehicles"> </div>
 		

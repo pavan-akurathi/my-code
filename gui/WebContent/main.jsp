@@ -17,7 +17,7 @@
 	<div class="header">
 		<div class="layout">
 			<div class="VZlogo">
-				<IMG title="Verizon" alt="Verizon" src="resources/VerizonLogo.png"
+				<IMG title="Verizon" alt="Verizon" src="resources/VerizonLogo.png" style="margin-left: -18px;"
 					width="110%" height="110%">
 			</div>
 			<div class="app-name">Car Pooling System</div>

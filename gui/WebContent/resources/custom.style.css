@@ -315,13 +315,13 @@
 }
 .empInfo
 {
-	width:90%;
+	width:99%;
 	border: 1px solid silver;
 	border-radius: 5px;
 }
 .poolingInfo
 {
-	width:90%;
+	width:99%;
 	border: 1px solid silver;
 	border-radius: 5px;
 	hight: 800px;
@@ -370,4 +370,52 @@
 .weekly
 {
 	display:none;
+}
+
+.poolingAvlDetails
+{
+	width:99%;
+	border: 1px solid silver;
+	border-radius: 5px;
+	margin-top: 10px;
+	
+}
+.avlVehicleEven
+{
+	width:99%;
+	border: 1px solid silver;
+	border-radius: 5px;
+	margin-top: 5px;
+	background-color: #F6CECE;
+	/*background: url("../media/car.jpg") no-repeat;*/
+	
+}
+.avlVehicleOdd
+{
+	width:99%;
+	border: 1px solid silver;
+	border-radius: 5px;
+	margin-top: 5px;
+	background-color: #F8E0E0;
+	/*background: url("../media/car.jpg") no-repeat;*/
+	
+}
+
+.poolAvlMap
+{
+	width:70%;
+	border: 1px solid silver;
+	border-radius: 5px;
+	margin-top: 5px;
+	box-sizing: border-box;
+	
+}
+.poolAvlGrid
+{
+	width:25%;
+	border: 1px solid silver;
+	border-radius: 5px;
+	margin-top: 5px;
+	box-sizing: border-box;
+	
 }
