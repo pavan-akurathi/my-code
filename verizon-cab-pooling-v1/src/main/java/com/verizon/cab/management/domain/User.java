@@ -9,22 +9,92 @@ import org.springframework.data.mongodb.core.mapping.Document;
   @Id
   private String id;
   private String firstName;
-  private String lastName;
-  private String address;
+  private String lastName; 
   private String phoneNumber;
   private String email;
+  private String zipCode;
   private String[] location;  
-  private String startDate;
-  private String isRepeatable;
-  private String travelMode;
+  private String startDateTime;
+  private String poolMode;  
+  private String vehicleType;
   private String vehicleCapacity;
-
-  public String getTravelMode() {
-	return travelMode;
+  private String isEnrolled;
+  private String pickCount; 
+  private String providerUserId;
+  private UserRoute[] points;
+  private String[] availableUserId;
+   
+  
+public String[] getAvailableUserId() {
+	return availableUserId;
 }
 
-public void setTravelMode(String travelMode) {
-	this.travelMode = travelMode;
+public void setAvailableUserId(String[] availableUserId) {
+	this.availableUserId = availableUserId;
+}
+
+public UserRoute[] getPoints() {
+	return points;
+}
+
+public void setPoints(UserRoute[] points) {
+	this.points = points;
+}
+
+public String getProviderUserId() {
+	return providerUserId;
+}
+
+public void setProviderUserId(String providerUserId) {
+	this.providerUserId = providerUserId;
+}
+
+public String getVehicleType() {
+	return vehicleType;
+}
+
+public void setVehicleType(String vehicleType) {
+	this.vehicleType = vehicleType;
+}
+
+public String getZipCode() {
+	return zipCode;
+}
+
+public void setZipCode(String zipCode) {
+	this.zipCode = zipCode;
+}
+
+public String getStartDateTime() {
+	return startDateTime;
+}
+
+public void setStartDateTime(String startDateTime) {
+	this.startDateTime = startDateTime;
+}
+
+public String getPoolMode() {
+	return poolMode;
+}
+
+public void setPoolMode(String poolMode) {
+	this.poolMode = poolMode;
+}
+
+public String getIsEnrolled() {
+	return isEnrolled;
+}
+
+public void setIsEnrolled(String isEnrolled) {
+	this.isEnrolled = isEnrolled;
+}
+
+public String getPickCount() {
+	return pickCount;
+}
+
+public void setPickCount(String pickCount) {
+	this.pickCount = pickCount;
 }
 
 public String getVehicleCapacity() {
@@ -57,15 +127,7 @@ public String getId() {
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
-  }
-
-  public String getAddress() {
-    return address;
-  }
-
-  public void setAddress(String address) {
-    this.address = address;
-  }
+  }  
 
   public String getPhoneNumber() {
     return phoneNumber;
@@ -90,23 +152,5 @@ public String[] getLocation() {
 public void setLocation(String[] location) {
 	this.location = location;
 }
-
-public String getStartDate() {
-	return startDate;
-}
-
-public void setStartDate(String startDate) {
-	this.startDate = startDate;
-}
-
-public String getIsRepeatable() {
-	return isRepeatable;
-}
-
-public void setIsRepeatable(String isRepeatable) {
-	this.isRepeatable = isRepeatable;
-}
-
-  
   
  }

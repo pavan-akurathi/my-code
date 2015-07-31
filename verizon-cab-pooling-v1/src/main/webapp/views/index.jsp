@@ -44,7 +44,7 @@ Password.</div>
 <div id="logonbox-container">
 <div id="logonbox-innerbox">
 <div id="logonbox-logonform">
-<form id = "loginForm" class="form insertPoint credentialform" action = "login.do">
+<form id = "loginForm" class="form insertPoint credentialform" method = "post" action = "login">
 <div class="field CredentialTypeusername">
 <div class="left"><label class="label plain" for="username">User
 name:</label></div>
@@ -82,7 +82,7 @@ name:</label></div>
 </div>
 <hr>
 <!-- Start Quick Links  -->
-<div class="block">
+<div class="block" style="width:50%;">
 <h1>Support Numbers</h1>
 <div class="text">
 <ul class="quick-links">
@@ -111,7 +111,7 @@ Transport Services during Night time Hours.
 <!-- End Notification -->
 <hr>
 <!-- Start About the CA  -->
-<div class="block">
+<div class="block" style="width:50%;">
 <h1>About the CA</h1>
 <div class="text">No Change Activity.</div>
 </div>
