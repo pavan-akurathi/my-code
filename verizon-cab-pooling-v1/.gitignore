@@ -1,0 +1,9 @@
+/build/classes
+/build/resources
+/bin
+/.settings
+/.classpath
+/.project
+/build
+/target
+/pre-built

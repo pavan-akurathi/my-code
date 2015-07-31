@@ -1,0 +1,3 @@
+http://tugdualgrall.blogspot.com/2014/08/introduction-to-mongodb-geospatial.html
+http://stackoverflow.com/questions/15274834/how-to-store-geospatial-information-in-mongodb
+http://stackoverflow.com/questions/10224364/calculate-distance-in-java-using-mongodb
