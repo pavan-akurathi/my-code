@@ -111,15 +111,17 @@ String location = request.getAttribute("location")!=null?(String)request.getAttr
 					<a href="report?username=<%=empid%>" id="reports" title="reports" style = "padding-right : 5px; font-weight: bold; border-right : 2px solid white; color : white; font-size : 14px;">Reports</a>&nbsp;&nbsp;
 				</td>
 				<td>
-					<a href="/views/faq.jsp" id="faq" title="FAQ's" style = "padding-right : 5px; font-weight: bold; border-right : 2px solid white; color : white; font-size : 14px;">FAQ's</a>
+					<a href="faq?username=<%=empid%>" id="faq" title="FAQ's" style = "padding-right : 5px; font-weight: bold; border-right : 2px solid white; color : white; font-size : 14px;">FAQ's</a>
+				</td>
+				<td>
+					<a href="/" id="logout" title="Log Out" style = "padding-right : 5px; font-weight: bold; border-right : 2px solid white; color : white; font-size : 14px;">Log Out</a>
 				</td>
 			</tr>
 		</table>
 	</div>
 		
-	<form action ="update" id = "poolRequest" method="post">
 	<div id="container" class="container">
-		
+		<form action ="update" id = "poolRequest" method="post">
 		<div id="empInfo" class="empInfo"> 
 			<fieldset class="fsempInfo">
 				<legend class="legend">Employee Details</legend>
@@ -159,6 +161,14 @@ String location = request.getAttribute("location")!=null?(String)request.getAttr
 						</td>
 					</tr>
 					<tr>
+						<td colspan="2" >
+							<section>
+								<label class="controlLabel">Address Description :  </label> 
+								<input type ="text"  id="addressDesc" name="addressDesc" class="addressDesc" value="<%=addressDesc%>">
+							</section>
+						</td>
+					</tr>
+					<tr>
 						<td >
 							<section  class="controlSection">
 								<label class="controlLabel">Start Date :  </label> 
@@ -181,15 +191,7 @@ String location = request.getAttribute("location")!=null?(String)request.getAttr
 								<input type ="text"   id="startTimeMin" name = "startTimeMin" class="estStartTimeMins" value="<%=startTimeMin%>"> 
 							</section>
 						</td>
-					</tr>
-					<tr>
-						<td colspan="2" >
-							<section  class="controlSection">
-								<label class="controlLabel">Address Description :  </label> 
-								<input type ="text"  id="addressDesc" name="addressDesc" class="addressDesc" value="<%=addressDesc%>">
-							</section>
-						</td>
-					</tr>					
+					</tr>										
 					<tr>
 						<td colspan="2">
 							<section>
@@ -198,7 +200,7 @@ String location = request.getAttribute("location")!=null?(String)request.getAttr
 								<label style="font-weight:bold;">Need  </label>
 								
 								<input onclick="fnCheck('rdnonetime');" id="rdProvide" class=radio <%=(poolType.equals("P")?"checked":"")%> type=radio value="P" name="poolType">
-								<label style="font-weight:bold;">Provide   </label>
+								<label style="font-weight:bold;">Offer   </label>
 							
 							</section>
 						</td>
@@ -253,17 +255,13 @@ String location = request.getAttribute("location")!=null?(String)request.getAttr
 		</div>
 		
 		<div id="avlVehicles" class="avlVehicles"> </div>
-		
-	
-	</div>
-	<input type= "hidden" id ="userLocation" name = "userLocation" value = "(<%=location%>)"/>
+		<input type= "hidden" id ="userLocation" name = "userLocation" value = "(<%=location%>)"/>
 	<input type="hidden" id = "username" name = "username" value = "<%=empid%>"/>
-	</form>
-	
-	<div class="footer">
-	   <div class="layout">
-	       <div class="copyrights">&copy; 2015 Designed by Team Hackers (Surendra Ganti, Pavan Akurathi, Pavan Satya) <a href="#">FAQ</a> |  <a href="#">Feedback</a></div>
-	   </div>
+	</form>	
+	</div>
+	<br>
+	<div class="layout">   
+       <div class="copyrights"><b>&copy; 2015 Designed by Team Hackers (Surendra Ganti, Pavan Akurathi, Pavan Satya) </b><a href="#">FAQ</a> |  <a href="#">Feedback</a></div>
 	</div>
 </body>
 </html>

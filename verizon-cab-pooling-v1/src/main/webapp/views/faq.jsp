@@ -2,7 +2,6 @@
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html class="vz-theme" lang="en">
-<jsp:include page="main.jsp" /> 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Car Pooling System</title>
@@ -16,8 +15,42 @@
 	rel="stylesheet" type="text/css">
 
 </head>
+<%
+String username = request.getAttribute("username")!=null?(String)request.getAttribute("username"):"";
+%>
 <body class="isIE" style="cursor: default;">
+<div class="header">
+		<div class="layout">
+			<div class="VZlogo">
+				<IMG title="Verizon" alt="Verizon" src="/resources/VerizonLogo.png"
+					width="110%" height="110%">
+			</div>
+			<div class="app-name">Car Pooling System</div>
+			<div class="app-support">&nbsp;<BR>
+			Email: <A href="mailto:VDSI-CarPoolingSystem@one.verizon.com">vdsi.carpooling@gmail.com</A><BR>
+			&nbsp;<BR>
+			</div>
+		</div>
+	</div>
 
+	<div class="mast1" style = "font-weight: bold; height: 40px; color: white; overflow: hidden; font-size: 14px; display: block; background-color: rgb(231, 28, 36); margin: auto;">&nbsp;&nbsp;
+		<table style = "margin-top: 5px; float: left;">
+			<tr>
+				<td>
+					<a href="login?username=<%=username%>" id="poolingRequest" title="poolingRequest" style = "padding-right : 5px; font-weight: bold; border-right : 2px solid white; color : white; font-size : 14px;">Pooling Request</a>&nbsp;&nbsp;
+				</td>				
+				<td>
+					<a href="report?username=<%=username%>" id="reports" title="reports" style = "padding-right : 5px; font-weight: bold; border-right : 2px solid white; color : white; font-size : 14px;">Reports</a>&nbsp;&nbsp;
+				</td>
+				<td>
+					<a href="#" id="faq" title="FAQ's" style = "padding-right : 5px; font-weight: bold; border-right : 2px solid white; color : white; font-size : 14px;">FAQ's</a>
+				</td>
+				<td>
+					<a href="/" id="logout" title="Log Out" style = "padding-right : 5px; font-weight: bold; border-right : 2px solid white; color : white; font-size : 14px;">Log Out</a>
+				</td>
+			</tr>
+		</table>
+	</div>
 <div class="layout" style="float:left;display:inline;">
 <table style="width:100%;">
 	<tr>

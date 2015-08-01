@@ -72,20 +72,20 @@ public class CabController {
 		
 		logger.info("Current date and time = [{}], port = [{}].", serverTime, port);
 		
-		User update = new User();
+		/*User update = new User();
 		update.setId("2548579");	    
 	    update.setEmail("pavan.akurathi@gmail.com");	    
 	    update.setFirstName("Pavan");	    
 	    update.setLastName("Kumar");	    
 	    update.setPhoneNumber("8332898007");
 	    update.setZipCode("500050");	    
-	    /*update.setPoolMode("P");
+	    update.setPoolMode("P");
 	    update.setVehicleType("4 Wheeler");
 	    update.setVehicleCapacity("4");
 	    update.setIsEnrolled("Y");
 	    String plocation[] =  {"78.340129","17.493686"};
 	    update.setLocation(plocation);
-	    update.setStartDateTime("30-07-2015");	*/    
+	    update.setStartDateTime("30-07-2015");	   
 	    cabRepository.save(update);	    
 	    
 	    update = new User();
@@ -95,10 +95,10 @@ public class CabController {
 	    update.setLastName("Pavan");	    
 	    update.setPhoneNumber("121313123");
 	    update.setZipCode("500050");
-	    /* update.setPoolMode("N");
+	     update.setPoolMode("N");
 	    String slocation[] =  {"78.360294","17.484168"};
 	    update.setLocation(slocation);
-	    update.setStartDateTime("07/30/2015");	*/    
+	    update.setStartDateTime("07/30/2015");	   
 	    cabRepository.save(update);	
 	    
 	    
@@ -109,13 +109,24 @@ public class CabController {
 	    update.setLastName("Ganti");	    
 	    update.setPhoneNumber("8332898007");	  
 	    update.setZipCode("500050");
-	    /*update.setPoolMode("N");
+	    update.setPoolMode("N");
 	    String glocation[] =  {"78.533762","17.449104"};
 	    update.setLocation(glocation);
-	    update.setStartDateTime("07/30/2015");	*/    
-	    cabRepository.save(update);	
+	    update.setStartDateTime("07/30/2015");	    
+	    cabRepository.save(update);	*/
 		
 		return "index";
+	}
+	
+	@RequestMapping(value = "/createNewUser", method = RequestMethod.GET)
+	public String createNewUser(Model model) {
+		return "createNewUser";
+	}
+	
+	@RequestMapping(value = "/faq", method = RequestMethod.GET)
+	public String faq(@RequestParam("username") String userId, Model model) {
+		model.addAttribute("username", userId);
+		return "faq";
 	}
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -139,7 +150,7 @@ public class CabController {
 		return "index";
 	}
 	
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
 	public String login(@RequestParam("username") String userId, Model model) {
 		
 		User user = cabRepository.findOne(userId);		
@@ -182,7 +193,10 @@ public class CabController {
 			return "poolingRequest";
 		}
 		else
+		{
+			model.addAttribute("message","Login failed. If you are a new user please register first.");
 			return "index";
+		}
 	}
 	
 	@RequestMapping(value = "/report", method = RequestMethod.GET)
@@ -200,11 +214,15 @@ public class CabController {
 				{
 					if(u.getPoolMode().equals("P"))
 					{
+						if(providers.toString().length() > 1)
+							providers.append(",");
 						providers.append("['").append(u.getFirstName()).append(" ").append(u.getLastName()).append("',")
 						.append(u.getLocation()[1]).append(",").append(u.getLocation()[0]).append(",'").append("P").append("']");
 					}
 					else
 					{
+						if(takers.toString().length() > 1)
+							takers.append(",");
 						takers.append("['").append(u.getFirstName()).append(" ").append(u.getLastName()).append("',")
 						.append(u.getLocation()[1]).append(",").append(u.getLocation()[0]).append(",'").append("N").append("']");
 					}
@@ -214,7 +232,7 @@ public class CabController {
 			model.addAttribute("providers", providers.toString());
 			model.addAttribute("takers", takers.toString());
 			model.addAttribute("username", userId);
-			return "report";
+			return "reports";
 		}
 		else
 		{
@@ -231,6 +249,14 @@ public class CabController {
 		if(userId!=null)
 		{
 			User user = cabRepository.findOne(userId);
+			String prevProviderUserId = user.getProviderUserId();
+			if(prevProviderUserId!=null && !prevProviderUserId.equals(avlVehicleChk))
+			{
+				User prevProvider = cabRepository.findOne(user.getProviderUserId());
+				prevProvider.setPickCount(String.valueOf(Integer.parseInt(prevProvider.getPickCount()!=null?prevProvider.getPickCount():"1")-1));
+				cabRepository.save(prevProvider);
+				// send email to old provider that user de-tagged from his pool
+			}
 			user.setProviderUserId(avlVehicleChk);
 			cabRepository.save(user);
 			model.addAttribute("empid", userId);
@@ -247,28 +273,20 @@ public class CabController {
 			model.addAttribute("vehicleType", user.getVehicleType());
 			model.addAttribute("capacity", user.getVehicleCapacity());
 			if(user.getProviderUserId()!=null)
-			{
-				if(user.getPoolMode().equals("N"))
+			{				
+				User providerUser = cabRepository.findOne(user.getProviderUserId());
+				if(prevProviderUserId!=null && !prevProviderUserId.equals(avlVehicleChk))
 				{
-					User providerUser = cabRepository.findOne(user.getProviderUserId());
 					providerUser.setPickCount(String.valueOf(Integer.parseInt(providerUser.getPickCount()!=null?providerUser.getPickCount():"0")+1));
 					cabRepository.save(providerUser);
-					String currentPool = providerUser.getFirstName()+ " "+providerUser.getLastName()+" | "+providerUser.getPhoneNumber()+" | "+providerUser.getEmail();
-					model.addAttribute("currentPool",currentPool);
+					// send email to new provider that user tagged to his pool
 				}
-				else
-				{
-					// yet to do for mode P
-				}
-				
+				String currentPool = providerUser.getFirstName()+ " "+providerUser.getLastName()+" | "+providerUser.getPhoneNumber()+" | "+providerUser.getEmail();
+				model.addAttribute("currentPool",currentPool);	
 			}
 			String[] geoData = user.getLocation();		
 			if(geoData!=null && geoData.length == 2)
-			{
-				model.addAttribute("location", (geoData[1]+","+geoData[0]));
-				// set near users
-			}
-								
+				model.addAttribute("location", (geoData[1]+","+geoData[0]));								
 			return "poolingRequest";			
 		}
 		else
@@ -294,6 +312,7 @@ public class CabController {
 		User user = cabRepository.findOne(userId);		
 		if(user!=null && !user.getId().equals(""))
 		{
+			user.setAddressDesc(addressDesc);
 			logger.info("update Data:: "+location+","+enrolledStatus+","+poolMode+","+vehicleCapacity+","+startDate+","+startTimeHr+","+startTimeMin+","+addressDesc+","+vehicleType);			
 			boolean isLocUpdate = false;
 			boolean isStatusUpdate = false;
@@ -301,7 +320,8 @@ public class CabController {
 			boolean isStartDateUpdate = false;
 			if(location!=null && location.contains(","))
 			{
-				location = location.substring(1, location.length()-1);
+				if(location.contains("("))
+					location = location.substring(1, location.length()-1);
 				// flip lat and long for mongo
 				String [] loc = new String[2];				
 				loc[0] = location.split(",")[1].trim();
@@ -362,18 +382,12 @@ public class CabController {
 			{
 				
 			}			
+			
 			if(isStatusUpdate || isLocUpdate || isPoolModeUpdate || isStartDateUpdate)
-			{				
-				cabRepository.save(user);	
-				model.addAttribute("currentPool","");
-				model.addAttribute("message", "Your Car Pool request is registered");
-			}
-			else
-			{
-				model.addAttribute("currentPool","Pavan, Akurathi");
-				model.addAttribute("message", "Your Car Pool request failed to register");
-				
-			}
+				user.setProviderUserId(null);
+			
+			cabRepository.save(user);
+			
 			model.addAttribute("empid", userId);
 			model.addAttribute("firstname", user.getFirstName());
 			model.addAttribute("lastname", user.getLastName());
@@ -398,8 +412,7 @@ public class CabController {
 				else
 				{
 					// yet to do for mode P
-				}
-				
+				}				
 			}
 			String[] geoData = user.getLocation();		
 			if(geoData!=null && geoData.length == 2)
@@ -421,6 +434,8 @@ public class CabController {
 					{
 						if(u.getPoolMode().equals("P"))
 						{
+							if(providers.toString().length() > 1)
+								providers.append(",");
 							providers.append("['").append(u.getFirstName()).append(" ").append(u.getLastName()).append("',")
 							.append(u.getLocation()[1]).append(",").append(u.getLocation()[0]).append(",'").append("P").append("']");
 							providerList.add(u);

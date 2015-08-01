@@ -65,7 +65,7 @@
 	
 			var mapProp = {
 				center : myCenter,
-				zoom : 13,
+				zoom : 15,
 				mapTypeId : google.maps.MapTypeId.ROADMAP
 			};
 	

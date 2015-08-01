@@ -52,7 +52,10 @@ String takers = request.getAttribute("takers")!=null?(String)request.getAttribut
 					<a href="#" id="reports" title="reports" style = "padding-right : 5px; font-weight: bold; border-right : 2px solid white; color : white; font-size : 14px;">Reports</a>&nbsp;&nbsp;
 				</td>
 				<td>
-					<a href="/views/faq.jsp" id="faq" title="FAQ's" style = "padding-right : 5px; font-weight: bold; border-right : 2px solid white; color : white; font-size : 14px;">FAQ's</a>
+					<a href="faq?username=<%=username%>" id="faq" title="FAQ's" style = "padding-right : 5px; font-weight: bold; border-right : 2px solid white; color : white; font-size : 14px;">FAQ's</a>
+				</td>
+				<td>
+					<a href="/" id="logout" title="Log Out" style = "padding-right : 5px; font-weight: bold; border-right : 2px solid white; color : white; font-size : 14px;">Log Out</a>
 				</td>
 			</tr>
 		</table>
@@ -138,10 +141,8 @@ String takers = request.getAttribute("takers")!=null?(String)request.getAttribut
     AutoCenter();
 
   </script>
-  <div class="footer">
-   <div class="layout">
-       <div class="copyrights">&copy; 2015 Designed by Team Hackers (Surendra Ganti, Pavan Akurathi, Pavan Sathya) <a href="#">FAQ</a> |  <a href="#">Feedback</a></div>
-   </div>
-</div>
+  <div class="layout">   
+       <div class="copyrights"><b>&copy; 2015 Designed by Team Hackers (Surendra Ganti, Pavan Akurathi, Pavan Satya) </b><a href="#">FAQ</a> |  <a href="#">Feedback</a></div>
+	</div>
 </body>
 </html>

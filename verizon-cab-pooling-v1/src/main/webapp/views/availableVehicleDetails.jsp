@@ -28,12 +28,16 @@ String email = request.getAttribute("email")!=null?(String)request.getAttribute(
 String startDate = request.getAttribute("startDate")!=null?(String)request.getAttribute("startDate"):"";
 String startTimeHr = request.getAttribute("startTimeHr")!=null?(String)request.getAttribute("startTimeHr"):"00";
 String startTimeMin = request.getAttribute("startTimeMin")!=null?(String)request.getAttribute("startTimeMin"):"00";
+String location = request.getAttribute("location")!=null?(String)request.getAttribute("location"):"";
 String currentPool = request.getAttribute("currentPool")!=null?(String)request.getAttribute("currentPool"):"";
 List<User> providerList = request.getAttribute("providerList")!=null?(List<User>)request.getAttribute("providerList"):new ArrayList<User>();
 String providers = request.getAttribute("providers")!=null?(String)request.getAttribute("providers"):"[]";
 %>
 <script>
 var providerLocations = <%=providers%>;
+var takerLocation = '<%=location%>';	
+var takerlatitude = takerLocation.split(",")[0];
+var takerlongitude = takerLocation.split(",")[1];
 	/*[
   ['Surendra Ganti', -33.890542, 151.274856, "P"],
   ['Pavan Satya', -33.923036, 151.259052, "P"],
@@ -73,7 +77,10 @@ var providerLocations = <%=providers%>;
 					<a href="report?username=<%=empid%>" id="reports" title="reports" style = "padding-right : 5px; font-weight: bold; border-right : 2px solid white; color : white; font-size : 14px;">Reports</a>&nbsp;&nbsp;
 				</td>
 				<td>
-					<a href="/views/faq.jsp" id="faq" title="FAQ's" style = "padding-right : 5px; font-weight: bold; border-right : 2px solid white; color : white; font-size : 14px;">FAQ's</a>
+					<a href="faq?username=<%=empid%>" id="faq" title="FAQ's" style = "padding-right : 5px; font-weight: bold; border-right : 2px solid white; color : white; font-size : 14px;">FAQ's</a>
+				</td>
+				<td>
+					<a href="/" id="logout" title="Log Out" style = "padding-right : 5px; font-weight: bold; border-right : 2px solid white; color : white; font-size : 14px;">Log Out</a>
 				</td>
 			</tr>
 		</table>
@@ -88,7 +95,7 @@ var providerLocations = <%=providers%>;
 					<label class="readOnlyLabel">Employee ID : </label> <label><%=empid%></label>
 				</section >
 				<section class="readOnlySection">
-					<label  class="readOnlyLabel">Employee Name : </label> <label>><%=firstname%>, <%=lastname%></label>
+					<label  class="readOnlyLabel">Employee Name : </label> <label><%=firstname%>, <%=lastname%></label>
 				</section>
 				<section class="readOnlySection">
 					<label  class="readOnlyLabel">E-mail : </label> <label><%=email%></label>
@@ -130,7 +137,7 @@ var providerLocations = <%=providers%>;
 										<tr><td><label  class="readOnlyLabel">Email:</label><%=user.getEmail()%></td></tr>
 										<tr><td><label  class="readOnlyLabel">Mobile #:</label><%=user.getPhoneNumber()%></td></tr>
 										<tr><td><label  class="readOnlyLabel">Vehicle Type:</label><%=user.getVehicleType()%></td></tr>
-										
+										<tr><td><label  class="readOnlyLabel">Address:</label><%=user.getAddressDesc()%></td></tr>
 									</table>
 								</div>
 								<%}%>

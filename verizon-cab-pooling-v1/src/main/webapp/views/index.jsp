@@ -65,16 +65,10 @@ Email: <A href="mailto:VDSI-CarPoolingSystem@one.verizon.com">vdsi.carpooling@gm
 				spellcheck="false" type="password" autocomplete="off"></div>
 			</div>
 			<div class="field buttonsrow">
-			<div class="buttonscontainer right"><a class="button"
+			<div class="right"><a class="button"
+				id="createBtn" href="createNewUser">New User</a></div>
+			<div class="right"><a class="button"
 				id="loginBtn"  onkeypress="login();" onclick= "login();" >Log On</a></div>
-			<div class="spinner" style="visibility: hidden;"><img alt=""
-				src="media/Loader.gif"></div>
-			</div>
-			<div class="field buttonsrow">
-			<div class="buttonscontainer right"><a class="button"
-				id="createBtn" href="/views/createNewUser.jsp">New User</a></div>
-			<div class="spinner" style="visibility: hidden;"><img alt=""
-				src="media/Loader.gif"></div>
 			</div>
 			<div class="spacer"></div>
 			</form>
@@ -153,10 +147,8 @@ Email: <A href="mailto:VDSI-CarPoolingSystem@one.verizon.com">vdsi.carpooling@gm
 </table>
 	
 </div>
-<div class="footer">
-   <div class="layout">
-       <div class="copyrights">&copy; 2015 Designed by Team Hackers (Surendra Ganti, Pavan Akurathi, Pavan Satya) <a href="#">FAQ</a> |  <a href="#">Feedback</a></div>
-   </div>
+<div class="layout">   
+       <div class="copyrights"><b>&copy; 2015 Designed by Team Hackers (Surendra Ganti, Pavan Akurathi, Pavan Satya) </b><a href="#">FAQ</a> |  <a href="#">Feedback</a></div>
 </div>
 
 <script type="text/javascript">

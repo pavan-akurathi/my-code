@@ -15,7 +15,7 @@
   <script type="text/javascript">    
 
     var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 12,
+      zoom: 15,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
 
@@ -25,7 +25,7 @@
     var markers = new Array();
 
     reciverMarker = new google.maps.Marker({
-        position: new google.maps.LatLng(-33.923036, 151.251234),
+        position: new google.maps.LatLng(takerlatitude,takerlongitude),
         map: map,
         icon: "resources/marker1.png"
       });
