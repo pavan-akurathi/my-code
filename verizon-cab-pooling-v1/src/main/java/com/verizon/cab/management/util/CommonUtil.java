@@ -131,7 +131,7 @@ public class CommonUtil {
 		SendGrid sendgrid = new SendGrid(sendgrid_username, sendgrid_password);				
 		Email email = new Email();				
 		email.addTo(To);
-		email.setFrom("vzcarpooling@gmail.com");
+		email.setFrom("vdsi.carpooling@gmail.com");
 		email.setSubject(subject);
 		email.setText(text);
 		try{

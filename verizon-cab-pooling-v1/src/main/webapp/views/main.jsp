@@ -21,10 +21,9 @@
 					width="110%" height="110%">
 			</div>
 			<div class="app-name">Car Pooling System</div>
-			<div class="app-support">
-				&nbsp;<br> Email: <a
-					href="mailto:VDSI-CarPoolingSystem@one.verizon.com">VDSI-CarPoolingSystem@one.verizon.com</a><br>
-				&nbsp;<br>
+			<div class="app-support">&nbsp;<BR>
+				Email: <A href="mailto:VDSI-CarPoolingSystem@one.verizon.com">vdsi.carpooling@gmail.com</A><BR>
+			&nbsp;<BR>
 			</div>
 		</div>
 	</div>

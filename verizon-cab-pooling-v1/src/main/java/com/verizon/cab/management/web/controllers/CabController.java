@@ -3,7 +3,9 @@ package com.verizon.cab.management.web.controllers;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -116,6 +118,27 @@ public class CabController {
 		return "index";
 	}
 	
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public String register(@RequestParam("employeeid") String employeeid,
+			@RequestParam("firstname") String firstname,
+			@RequestParam("lastname") String lastname,
+			@RequestParam("phnumber") String phnumber,
+			@RequestParam("email") String email,
+			@RequestParam("zipcode") String zipcode,			
+			Model model) {
+		
+		User update = new User();
+		update.setId(employeeid);	    
+	    update.setEmail(email);	    
+	    update.setFirstName(firstname);	    
+	    update.setLastName(lastname);	    
+	    update.setPhoneNumber(phnumber);
+	    update.setZipCode(zipcode);
+	    cabRepository.save(update);	    
+	    model.addAttribute("message", "Registration completed.");
+		return "index";
+	}
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@RequestParam("username") String userId, Model model) {
 		
@@ -128,10 +151,27 @@ public class CabController {
 			model.addAttribute("email", user.getEmail());
 			model.addAttribute("zipcode", user.getZipCode());
 			model.addAttribute("status", user.getIsEnrolled());
-			model.addAttribute("startDate", user.getStartDateTime());
+			model.addAttribute("startDate", user.getStartDate());
+			model.addAttribute("startTimeHr", user.getStartTimeHr());
+			model.addAttribute("startTimeMin", user.getStartTimeMin());
+			model.addAttribute("addressDesc", user.getAddressDesc());
 			model.addAttribute("poolType", user.getPoolMode());
 			model.addAttribute("vehicleType", user.getVehicleType());
 			model.addAttribute("capacity", user.getVehicleCapacity());
+			if(user.getProviderUserId()!=null)
+			{
+				if(user.getPoolMode().equals("N"))
+				{
+					User providerUser = cabRepository.findOne(user.getProviderUserId());
+					String currentPool = providerUser.getFirstName()+ " "+providerUser.getLastName()+" | "+providerUser.getPhoneNumber()+" | "+providerUser.getEmail();
+					model.addAttribute("currentPool",currentPool);
+				}
+				else
+				{
+					// yet to do for mode P
+				}
+				
+			}
 			String[] geoData = user.getLocation();		
 			if(geoData!=null && geoData.length == 2)
 			{
@@ -145,6 +185,99 @@ public class CabController {
 			return "index";
 	}
 	
+	@RequestMapping(value = "/report", method = RequestMethod.GET)
+	public String report(@RequestParam("username") String userId, Model model) {
+		
+		if(userId!=null)
+		{
+			List<User> users = cabRepository.findAll();	
+			StringBuilder providers = new StringBuilder();
+			StringBuilder takers = new StringBuilder();
+			providers.append("["); takers.append("[");
+			for(User u: users)
+			{
+				if(u.getIsEnrolled().equals("Y") && u.getLocation()!=null && u.getLocation().length == 2)
+				{
+					if(u.getPoolMode().equals("P"))
+					{
+						providers.append("['").append(u.getFirstName()).append(" ").append(u.getLastName()).append("',")
+						.append(u.getLocation()[1]).append(",").append(u.getLocation()[0]).append(",'").append("P").append("']");
+					}
+					else
+					{
+						takers.append("['").append(u.getFirstName()).append(" ").append(u.getLastName()).append("',")
+						.append(u.getLocation()[1]).append(",").append(u.getLocation()[0]).append(",'").append("N").append("']");
+					}
+				}
+			}
+			providers.append("]"); takers.append("]");
+			model.addAttribute("providers", providers.toString());
+			model.addAttribute("takers", takers.toString());
+			model.addAttribute("username", userId);
+			return "report";
+		}
+		else
+		{
+			model.addAttribute("message", "Session expired!! please login again");
+			return "index";
+		}
+	}
+	
+	@RequestMapping(value = "/submitRequest", method = RequestMethod.POST)
+	public String submitRequest(@RequestParam("userId") String userId,
+			@RequestParam("avlVehicleChk") String avlVehicleChk,
+			Model model) {
+		
+		if(userId!=null)
+		{
+			User user = cabRepository.findOne(userId);
+			user.setProviderUserId(avlVehicleChk);
+			cabRepository.save(user);
+			model.addAttribute("empid", userId);
+			model.addAttribute("firstname", user.getFirstName());
+			model.addAttribute("lastname", user.getLastName());
+			model.addAttribute("email", user.getEmail());
+			model.addAttribute("zipcode", user.getZipCode());
+			model.addAttribute("status", user.getIsEnrolled());
+			model.addAttribute("startDate", user.getStartDate());
+			model.addAttribute("startTimeHr", user.getStartTimeHr());
+			model.addAttribute("startTimeMin", user.getStartTimeMin());
+			model.addAttribute("addressDesc", user.getAddressDesc());
+			model.addAttribute("poolType", user.getPoolMode());
+			model.addAttribute("vehicleType", user.getVehicleType());
+			model.addAttribute("capacity", user.getVehicleCapacity());
+			if(user.getProviderUserId()!=null)
+			{
+				if(user.getPoolMode().equals("N"))
+				{
+					User providerUser = cabRepository.findOne(user.getProviderUserId());
+					providerUser.setPickCount(String.valueOf(Integer.parseInt(providerUser.getPickCount()!=null?providerUser.getPickCount():"0")+1));
+					cabRepository.save(providerUser);
+					String currentPool = providerUser.getFirstName()+ " "+providerUser.getLastName()+" | "+providerUser.getPhoneNumber()+" | "+providerUser.getEmail();
+					model.addAttribute("currentPool",currentPool);
+				}
+				else
+				{
+					// yet to do for mode P
+				}
+				
+			}
+			String[] geoData = user.getLocation();		
+			if(geoData!=null && geoData.length == 2)
+			{
+				model.addAttribute("location", (geoData[1]+","+geoData[0]));
+				// set near users
+			}
+								
+			return "poolingRequest";			
+		}
+		else
+		{
+			model.addAttribute("message", "Session expired!! please login again");
+			return "index";
+		}
+	}
+	
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public String update(@RequestParam("username") String userId,			
 			@RequestParam("userLocation") String location,
@@ -152,13 +285,16 @@ public class CabController {
 			@RequestParam("poolType") String poolMode,
 			@RequestParam("capacity") String vehicleCapacity,
 			@RequestParam("startDate") String startDate,
+			@RequestParam("startTimeHr") String startTimeHr,			
+			@RequestParam("startTimeMin") String startTimeMin,
+			@RequestParam("addressDesc") String addressDesc,
 			@RequestParam("vehicleType") String vehicleType,
 			Model model) {
 		
 		User user = cabRepository.findOne(userId);		
 		if(user!=null && !user.getId().equals(""))
 		{
-			logger.info("update Data:: "+location+","+enrolledStatus+","+poolMode+","+vehicleCapacity+","+startDate+","+vehicleType);			
+			logger.info("update Data:: "+location+","+enrolledStatus+","+poolMode+","+vehicleCapacity+","+startDate+","+startTimeHr+","+startTimeMin+","+addressDesc+","+vehicleType);			
 			boolean isLocUpdate = false;
 			boolean isStatusUpdate = false;
 			boolean isPoolModeUpdate = false;
@@ -201,10 +337,13 @@ public class CabController {
 				// Send email to P with list of N users
 				// Send email to N with list of P users
 			}	
-			isStartDateUpdate = !(user.getStartDateTime()!= null && startDate.equals(user.getStartDateTime()));
+			isStartDateUpdate = !(user.getStartDate()!= null && startDate.equals(user.getStartDate()) && user.getStartTimeHr()!= null && startTimeHr.equals(user.getStartTimeHr())
+					&& user.getStartTimeMin()!= null && startTimeMin.equals(user.getStartTimeMin()));
 			if(isStartDateUpdate)
 			{
-				user.setStartDateTime(startDate);				
+				user.setStartDate(startDate);				
+				user.setStartTimeHr(startTimeHr);
+				user.setStartTimeMin(startTimeMin);
 			}
 			if(poolMode!=null && poolMode.equals("P") && isLocUpdate)
 			{					
@@ -226,10 +365,12 @@ public class CabController {
 			if(isStatusUpdate || isLocUpdate || isPoolModeUpdate || isStartDateUpdate)
 			{				
 				cabRepository.save(user);	
+				model.addAttribute("currentPool","");
 				model.addAttribute("message", "Your Car Pool request is registered");
 			}
 			else
 			{
+				model.addAttribute("currentPool","Pavan, Akurathi");
 				model.addAttribute("message", "Your Car Pool request failed to register");
 				
 			}
@@ -239,21 +380,64 @@ public class CabController {
 			model.addAttribute("email", user.getEmail());
 			model.addAttribute("zipcode", user.getZipCode());
 			model.addAttribute("status", user.getIsEnrolled());
-			model.addAttribute("startDate", user.getStartDateTime());
+			model.addAttribute("startDate", user.getStartDate());
+			model.addAttribute("startTimeHr", user.getStartTimeHr());
+			model.addAttribute("startTimeMin", user.getStartTimeMin());
+			model.addAttribute("addressDesc", user.getAddressDesc());
 			model.addAttribute("poolType", user.getPoolMode());
 			model.addAttribute("vehicleType", user.getVehicleType());
-			model.addAttribute("capacity", user.getVehicleCapacity());
+			model.addAttribute("capacity", user.getVehicleCapacity());		
+			if(user.getProviderUserId()!=null)
+			{
+				if(user.getPoolMode().equals("N"))
+				{
+					User providerUser = cabRepository.findOne(user.getProviderUserId());
+					String currentPool = providerUser.getFirstName()+ " "+providerUser.getLastName()+" | "+providerUser.getPhoneNumber()+" | "+providerUser.getEmail();
+					model.addAttribute("currentPool",currentPool);
+				}
+				else
+				{
+					// yet to do for mode P
+				}
+				
+			}
 			String[] geoData = user.getLocation();		
 			if(geoData!=null && geoData.length == 2)
 			{
 				model.addAttribute("location", (geoData[1]+","+geoData[0]));
 				// set near users
 			}			
-			
-			return "poolingRequest";
+			if(user.getPoolMode().equals("P"))
+				return "poolingRequest";
+			else
+			{
+				List<User> providerList = new ArrayList<User>();
+				List<User> users = cabRepository.findAll();	
+				StringBuilder providers = new StringBuilder();				
+				providers.append("[");
+				for(User u: users)
+				{
+					if(u.getIsEnrolled().equals("Y") && u.getLocation()!=null && u.getLocation().length == 2)
+					{
+						if(u.getPoolMode().equals("P"))
+						{
+							providers.append("['").append(u.getFirstName()).append(" ").append(u.getLastName()).append("',")
+							.append(u.getLocation()[1]).append(",").append(u.getLocation()[0]).append(",'").append("P").append("']");
+							providerList.add(u);
+						}						
+					}
+				}
+				providers.append("]");
+				model.addAttribute("providers", providers.toString());
+				model.addAttribute("providerList",providerList);
+				return "availableVehicleDetails";
+			}
 		}
 		else
+		{
+			model.addAttribute("message", "Session expired!! please login again");
 			return "index";
+		}
 	}
 	
 }

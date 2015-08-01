@@ -13,8 +13,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
   private String phoneNumber;
   private String email;
   private String zipCode;
+  private String addressDesc;
   private String[] location;  
-  private String startDateTime;
+  private String startDate;
+  private String startTimeHr;
+  private String startTimeMin;
   private String poolMode;  
   private String vehicleType;
   private String vehicleCapacity;
@@ -25,6 +28,39 @@ import org.springframework.data.mongodb.core.mapping.Document;
   private String[] availableUserId;
    
   
+  
+public String getStartDate() {
+	return startDate;
+}
+
+public void setStartDate(String startDate) {
+	this.startDate = startDate;
+}
+
+public String getStartTimeHr() {
+	return startTimeHr;
+}
+
+public void setStartTimeHr(String startTimeHr) {
+	this.startTimeHr = startTimeHr;
+}
+
+public String getStartTimeMin() {
+	return startTimeMin;
+}
+
+public void setStartTimeMin(String startTimeMin) {
+	this.startTimeMin = startTimeMin;
+}
+
+public String getAddressDesc() {
+	return addressDesc;
+}
+
+public void setAddressDesc(String addressDesc) {
+	this.addressDesc = addressDesc;
+}
+
 public String[] getAvailableUserId() {
 	return availableUserId;
 }
@@ -63,14 +99,6 @@ public String getZipCode() {
 
 public void setZipCode(String zipCode) {
 	this.zipCode = zipCode;
-}
-
-public String getStartDateTime() {
-	return startDateTime;
-}
-
-public void setStartDateTime(String startDateTime) {
-	this.startDateTime = startDateTime;
 }
 
 public String getPoolMode() {

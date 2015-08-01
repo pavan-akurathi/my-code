@@ -26,9 +26,13 @@ String email = request.getAttribute("email")!=null?(String)request.getAttribute(
 String zipcode = request.getAttribute("zipcode")!=null?(String)request.getAttribute("zipcode"):"";
 String status = request.getAttribute("status")!=null?(String)request.getAttribute("status"):"Y";
 String startDate = request.getAttribute("startDate")!=null?(String)request.getAttribute("startDate"):"";
+String startTimeHr = request.getAttribute("startTimeHr")!=null?(String)request.getAttribute("startTimeHr"):"00";
+String startTimeMin = request.getAttribute("startTimeMin")!=null?(String)request.getAttribute("startTimeMin"):"00";
 String poolType = request.getAttribute("poolType")!=null?(String)request.getAttribute("poolType"):"N";
 String vehicleType = request.getAttribute("vehicleType")!=null?(String)request.getAttribute("vehicleType"):"";
 String capacity = request.getAttribute("capacity")!=null?(String)request.getAttribute("capacity"):"";
+String addressDesc = request.getAttribute("addressDesc")!=null?(String)request.getAttribute("addressDesc"):"";
+String currentPool = request.getAttribute("currentPool")!=null?(String)request.getAttribute("currentPool"):"";
 String location = request.getAttribute("location")!=null?(String)request.getAttribute("location"):"17.438878,78.381206";
 
 %>
@@ -51,12 +55,31 @@ String location = request.getAttribute("location")!=null?(String)request.getAttr
         $("#estStartTimeHour").attr('min', 0);
         $("#estStartTimeHour").attr('max', 60);
         
+        if(document.getElementById('rdNeed').checked){
+			document.getElementById('vechTypeSec').style.display = 'none';
+			document.getElementById('vechCapSec').style.display = 'none';
+		}else{
+			document.getElementById('vechTypeSec').style.display = 'block';
+			document.getElementById('vechCapSec').style.display = 'block';
+		}
+        
      });
 	
 	function submitRequest()
 	{
 		document.getElementById('userLocation').value = latLong;
 		document.getElementById('poolRequest').submit();
+	}
+	
+	function fnCheck()
+	{
+		if(document.getElementById('rdNeed').checked){
+			document.getElementById('vechTypeSec').style.display = 'none';
+			document.getElementById('vechCapSec').style.display = 'none';
+		}else{
+			document.getElementById('vechTypeSec').style.display = 'block';
+			document.getElementById('vechCapSec').style.display = 'block';
+		}
 	}
 
 	</script>
@@ -71,10 +94,9 @@ String location = request.getAttribute("location")!=null?(String)request.getAttr
 					width="110%" height="110%">
 			</div>
 			<div class="app-name">Car Pooling System</div>
-			<div class="app-support">
-				&nbsp;<br> Email: <a
-					href="mailto:VDSI-CarPoolingSystem@one.verizon.com">VDSI-CarPoolingSystem@one.verizon.com</a><br>
-				&nbsp;<br>
+			<div class="app-support">&nbsp;<BR>
+			Email: <A href="mailto:VDSI-CarPoolingSystem@one.verizon.com">vdsi.carpooling@gmail.com</A><BR>
+			&nbsp;<BR>
 			</div>
 		</div>
 	</div>
@@ -84,12 +106,9 @@ String location = request.getAttribute("location")!=null?(String)request.getAttr
 			<tr>
 				<td>
 					<a href="#" id="poolingRequest" title="poolingRequest" style = "padding-right : 5px; font-weight: bold; border-right : 2px solid white; color : white; font-size : 14px;">Pooling Request</a>&nbsp;&nbsp;
-				</td>
+				</td>				
 				<td>
-					<a href="/views/myPool.jsp" id="myPool" title="myPool" style = "padding-right : 5px; font-weight: bold; border-right : 2px solid white; color : white; font-size : 14px;">My Pool</a>&nbsp;&nbsp;
-				</td>
-				<td>
-					<a href="/views/reports.jsp" id="reports" title="reports" style = "padding-right : 5px; font-weight: bold; border-right : 2px solid white; color : white; font-size : 14px;">Reports</a>&nbsp;&nbsp;
+					<a href="report?username=<%=empid%>" id="reports" title="reports" style = "padding-right : 5px; font-weight: bold; border-right : 2px solid white; color : white; font-size : 14px;">Reports</a>&nbsp;&nbsp;
 				</td>
 				<td>
 					<a href="/views/faq.jsp" id="faq" title="FAQ's" style = "padding-right : 5px; font-weight: bold; border-right : 2px solid white; color : white; font-size : 14px;">FAQ's</a>
@@ -97,8 +116,7 @@ String location = request.getAttribute("location")!=null?(String)request.getAttr
 			</tr>
 		</table>
 	</div>
-	
-	
+		
 	<form action ="update" id = "poolRequest" method="post">
 	<div id="container" class="container">
 		
@@ -113,6 +131,9 @@ String location = request.getAttribute("location")!=null?(String)request.getAttr
 				</section>
 				<section class="readOnlySection">
 					<label  class="readOnlyLabel">E-mail : </label> <label><%=email%></label>
+				</section>
+				<section class="readOnlySection">
+					<label  class="readOnlyLabel">Current Pool : </label> <label><%=currentPool%></label>
 				</section>				
 			</fieldset>
 		</div>
@@ -156,11 +177,19 @@ String location = request.getAttribute("location")!=null?(String)request.getAttr
 						<td >
 							<section  class="controlSection">
 								<label class="controlLabel">Estimated Start Time (hh:mm) :  </label> 
-								<input type ="text"   id="estStartTimeHour" class="estStartTimeHour" value="00"> :
-								<input type ="text"   id="estStartTimeMins" class="estStartTimeMins" value="00"> 
+								<input type ="text"   id="startTimeHr" name = "startTimeHr" class="estStartTimeHour" value="<%=startTimeHr%>"> :
+								<input type ="text"   id="startTimeMin" name = "startTimeMin" class="estStartTimeMins" value="<%=startTimeMin%>"> 
 							</section>
 						</td>
 					</tr>
+					<tr>
+						<td colspan="2" >
+							<section  class="controlSection">
+								<label class="controlLabel">Address Description :  </label> 
+								<input type ="text"  id="addressDesc" name="addressDesc" class="addressDesc" value="<%=addressDesc%>">
+							</section>
+						</td>
+					</tr>					
 					<tr>
 						<td colspan="2">
 							<section>
@@ -174,20 +203,20 @@ String location = request.getAttribute("location")!=null?(String)request.getAttr
 							</section>
 						</td>
 					</tr>
-					<tr>
+					<tr>					
 						<td >
-							<section  class="controlSection">
+							<section id = "vechTypeSec" class="controlSection">
 								<label class="controlLabel">Vehicle Type :  </label> 
 								<input type ="text"  onclick="fnVehicle(this);" id="vehicleType" name="vehicleType" class="vehicleType" value="<%=vehicleType%>">
 							</section>
 						</td>
 						<td>
-							<section  class="controlSection">
+							<section id = "vechCapSec" class="controlSection">
 								<label class="controlLabel">Capacity :  </label> 
 								<input type ="text" id="capacity" name="capacity" class="capacity" value="<%=capacity%>" >
 							</section>
 						</td>
-					</tr>
+					</tr>								
 					
 					<tr>
 						<td colspan="2">
@@ -230,5 +259,11 @@ String location = request.getAttribute("location")!=null?(String)request.getAttr
 	<input type= "hidden" id ="userLocation" name = "userLocation" value = "(<%=location%>)"/>
 	<input type="hidden" id = "username" name = "username" value = "<%=empid%>"/>
 	</form>
+	
+	<div class="footer">
+	   <div class="layout">
+	       <div class="copyrights">&copy; 2015 Designed by Team Hackers (Surendra Ganti, Pavan Akurathi, Pavan Satya) <a href="#">FAQ</a> |  <a href="#">Feedback</a></div>
+	   </div>
+	</div>
 </body>
 </html>
