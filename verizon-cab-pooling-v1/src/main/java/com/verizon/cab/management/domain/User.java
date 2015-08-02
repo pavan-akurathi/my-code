@@ -1,5 +1,7 @@
 package com.verizon.cab.management.domain;
 
+import java.util.Date;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -13,8 +15,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
   private String phoneNumber;
   private String email;
   private String zipCode;
+  private String addressDesc;
   private String[] location;  
-  private String startDateTime;
+  private Date startDate;  
   private String poolMode;  
   private String vehicleType;
   private String vehicleCapacity;
@@ -22,15 +25,22 @@ import org.springframework.data.mongodb.core.mapping.Document;
   private String pickCount; 
   private String providerUserId;
   private UserRoute[] points;
-  private String[] availableUserId;
-   
+    
   
-public String[] getAvailableUserId() {
-	return availableUserId;
+public Date getStartDate() {
+	return startDate;
 }
 
-public void setAvailableUserId(String[] availableUserId) {
-	this.availableUserId = availableUserId;
+public void setStartDate(Date startDate) {
+	this.startDate = startDate;
+}
+
+public String getAddressDesc() {
+	return addressDesc;
+}
+
+public void setAddressDesc(String addressDesc) {
+	this.addressDesc = addressDesc;
 }
 
 public UserRoute[] getPoints() {
@@ -63,14 +73,6 @@ public String getZipCode() {
 
 public void setZipCode(String zipCode) {
 	this.zipCode = zipCode;
-}
-
-public String getStartDateTime() {
-	return startDateTime;
-}
-
-public void setStartDateTime(String startDateTime) {
-	this.startDateTime = startDateTime;
 }
 
 public String getPoolMode() {

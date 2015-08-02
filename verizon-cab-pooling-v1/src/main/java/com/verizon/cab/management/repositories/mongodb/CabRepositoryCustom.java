@@ -8,5 +8,6 @@ public interface CabRepositoryCustom {
 
 	public List<User> getNearbyHave(String[] location, String distance);
 	
-	public List<User> getNearbyNeed(String[] location, String distance);
+	public List<User> getNearbyNeed(String[] location, String distance);	
+	
 }

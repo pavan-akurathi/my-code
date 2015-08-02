@@ -34,14 +34,14 @@
 .vz-theme .VZlogo {
 	width: 108px; height: 109px; float: left;
 }
+.vz-theme .VZFooter {
+	width: 108px; height: 109px; float: right;
+}
 .vz-theme .app-name {
 	margin: 70px 0px 0px 20px; font-family: ApexMedium, sans-serif, Arial, Helvetica; font-size: 28px; float: left;
 }
 .vz-theme .app-support {
-	background: url("../media/helpIcon.png") no-repeat; margin: 20px 0px 0px; padding: 0px 0px 0px 50px; font-family: ApexMedium, sans-serif, Arial, Helvetica; font-size: 16px; float: right;
-}
-.vz-theme .app-support {
-	color: rgb(109, 110, 113);
+	background: url("../media/Chat.png") no-repeat; margin: 20px 0px 0px; padding: 0px 0px 0px 50px; font-family: ApexMedium, sans-serif, Arial, Helvetica; font-size: 16px; float: right;
 }
 .vz-theme .app-support a {
 	color: rgb(109, 110, 113);
@@ -315,13 +315,13 @@
 }
 .empInfo
 {
-	width:90%;
+	width:99%;
 	border: 1px solid silver;
 	border-radius: 5px;
 }
 .poolingInfo
 {
-	width:90%;
+	width:99%;
 	border: 1px solid silver;
 	border-radius: 5px;
 	hight: 800px;
@@ -370,4 +370,48 @@
 .weekly
 {
 	display:none;
+}
+
+.poolingAvlDetails
+{
+	width:99%;
+	border: 1px solid silver;
+	border-radius: 5px;
+	margin-top: 10px;
+	
+}
+.avlVehicleEven
+{
+	width:99%;
+	border: 1px solid silver;
+	border-radius: 5px;
+	margin-top: 5px;
+	background-color: #F6CECE;	
+}
+.avlVehicleOdd
+{
+	width:99%;
+	border: 1px solid silver;
+	border-radius: 5px;
+	margin-top: 5px;
+	background-color: #F8E0E0;	
+}
+
+.poolAvlMap
+{
+	width:70%;
+	border: 1px solid silver;
+	border-radius: 5px;
+	margin-top: 5px;
+	box-sizing: border-box;
+	
+}
+.poolAvlGrid
+{
+	width:25%;
+	border: 1px solid silver;
+	border-radius: 5px;
+	margin-top: 5px;
+	box-sizing: border-box;
+	
 }
