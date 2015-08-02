@@ -3,7 +3,6 @@ http://stackoverflow.com/questions/15274834/how-to-store-geospatial-information-
 http://stackoverflow.com/questions/10224364/calculate-distance-in-java-using-mongodb
 https://blog.codecentric.de/en/2012/02/spring-data-mongodb-geospatial-queries/
 http://docs.spring.io/spring-data/mongodb/docs/current/reference/html/
-https://spring.io/guides/gs/accessing-data-mongodb/
 http://stackoverflow.com/questions/12308756/spring-data-mongodb-date-between-two-dates
 http://docs.spring.io/spring-data/data-document/docs/current/reference/html/
 http://www.dineshonjava.com/2013/02/spring-data-mongodb-query-document.html#.Vb2OPK2rHCk

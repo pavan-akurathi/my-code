@@ -332,7 +332,8 @@ public class CabController {
 			if(prevProviderUserId!=null && !prevProviderUserId.equals(avlVehicleChk))
 			{
 				User prevProvider = cabRepository.findOne(user.getProviderUserId());
-				prevProvider.setPickCount(prevProvider.getPickCount()>0?prevProvider.getPickCount():0);
+				prevProvider.setPickCount(prevProvider.getPickCount()>0?prevProvider.getPickCount()-1:0);
+				prevProvider.setAvailableCount(prevProvider.getVehicleCapacity()-prevProvider.getPickCount());
 				cabRepository.save(prevProvider);
 				// send email to old provider that user de-tagged from his pool
 				String emailBody = EmailTemplate.TEXT_CAR_POOL_DROPPED_PROVIDER.replace(EmailTemplate.RECEIPIENT, prevProvider.getFirstName())
@@ -377,7 +378,8 @@ public class CabController {
 					prevProviderUserId = "";
 				if(!prevProviderUserId.equals(avlVehicleChk))
 				{
-					providerUser.setPickCount(providerUser.getPickCount()+1);					
+					providerUser.setPickCount(providerUser.getPickCount()+1);	
+					providerUser.setAvailableCount(providerUser.getVehicleCapacity()-providerUser.getPickCount());
 					cabRepository.save(providerUser);
 					// send email to new provider that user tagged to his pool
 					String emailBody = EmailTemplate.TEXT_CAR_POOL_ENROLLED_PROVIDER.replace(EmailTemplate.RECEIPIENT, providerUser.getFirstName())
@@ -426,8 +428,16 @@ public class CabController {
 		if(user!=null && !user.getId().equals(""))
 		{
 			user.setAddressDesc(addressDesc);
+			if(poolMode.equals("P") && vehicleCapacity!=null && !vehicleCapacity.trim().equals(""))
+				user.setVehicleCapacity(Integer.parseInt(vehicleCapacity));
+			if(poolMode.equals("P") && vehicleType!=null && !vehicleType.trim().equals(""))
+				user.setVehicleType(vehicleType);
+			
 			if(user.getPickCount()==0 && poolMode.equals("P"))
-				user.setPickCount(0);
+			{
+				user.setPickCount(0);				
+			}
+			user.setAvailableCount(user.getVehicleCapacity()-user.getPickCount());
 			logger.info("update Data:: "+location+","+enrolledStatus+","+poolMode+","+vehicleCapacity+","+startDate+","+startTimeHr+","+startTimeMin+","+addressDesc+","+vehicleType);			
 			boolean isLocUpdate = false;
 			boolean isStatusUpdate = false;
@@ -491,6 +501,7 @@ public class CabController {
 							{
 								User pUser = cabRepository.findOne(user.getProviderUserId());
 								pUser.setPickCount(pUser.getPickCount()>0?pUser.getPickCount()-1:0);
+								pUser.setAvailableCount(pUser.getVehicleCapacity() - pUser.getPickCount());
 								cabRepository.save(pUser);
 								user.setProviderUserId(null);										
 								String emailBody = EmailTemplate.TEXT_CAR_POOL_DROPPED_PROVIDER.replace(EmailTemplate.RECEIPIENT, pUser.getFirstName())
@@ -516,6 +527,7 @@ public class CabController {
 								isSentEmail = true;
 							}
 							user.setPickCount(0);
+							user.setAvailableCount(user.getVehicleCapacity());
 						}					
 				}								
 			}
@@ -530,6 +542,7 @@ public class CabController {
 								{
 									User pUser = cabRepository.findOne(user.getProviderUserId());
 									pUser.setPickCount(pUser.getPickCount()>0?pUser.getPickCount()-1:0);
+									pUser.setAvailableCount(pUser.getVehicleCapacity() - pUser.getPickCount());
 									cabRepository.save(pUser);
 									user.setProviderUserId(null);								
 									String emailBody = EmailTemplate.TEXT_CAR_POOL_DROPPED_PROVIDER.replace(EmailTemplate.RECEIPIENT, pUser.getFirstName())
@@ -541,6 +554,7 @@ public class CabController {
 								}							
 							}
 							user.setPickCount(0);
+							user.setAvailableCount(user.getVehicleCapacity());
 						}
 						else
 						{
@@ -560,6 +574,7 @@ public class CabController {
 								}
 							}
 							user.setPickCount(0);
+							user.setAvailableCount(user.getVehicleCapacity());
 						}						
 			}			
 			
@@ -622,11 +637,7 @@ public class CabController {
 			}
 			
 			user.setIsEnrolled(enrolledStatus);
-			user.setPoolMode(poolMode);				
-			if(poolMode.equals("P") && vehicleCapacity!=null && !vehicleCapacity.trim().equals(""))
-				user.setVehicleCapacity(Integer.parseInt(vehicleCapacity));
-			if(poolMode.equals("P") && vehicleType!=null && !vehicleType.trim().equals(""))
-				user.setVehicleType(vehicleType);
+			user.setPoolMode(poolMode);		
 						
 			cabRepository.save(user);
 			

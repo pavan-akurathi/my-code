@@ -27,8 +27,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
   private int pickCount; 
   private String providerUserId;
   private UserRoute[] points;
+  private int availableCount;
     
-  
+    
+public int getAvailableCount() {
+	return availableCount;
+}
+
+public void setAvailableCount(int availableCount) {
+	this.availableCount = availableCount;
+}
+
 public Date getStartDate() {
 	return startDate;
 }
