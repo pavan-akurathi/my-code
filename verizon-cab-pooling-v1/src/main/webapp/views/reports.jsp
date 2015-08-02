@@ -26,6 +26,8 @@
 String username = request.getAttribute("username")!=null?(String)request.getAttribute("username"):"";
 String providers = request.getAttribute("providers")!=null?(String)request.getAttribute("providers"):"[]";
 String takers = request.getAttribute("takers")!=null?(String)request.getAttribute("takers"):"[]";
+String mappedusers = request.getAttribute("mappedusers")!=null?(String)request.getAttribute("mappedusers"):"[]";
+
 %>
 <body class="isIE" style="cursor: default;" >
 <div class="header">
@@ -78,67 +80,89 @@ String takers = request.getAttribute("takers")!=null?(String)request.getAttribut
                              //['Jai Lakshmi Narasimha Swamy', 17.456737677,79.3854735679, "U"]
                            ];*/
 
-    var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 12,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    });
+     var mappedUserLocs = <%=mappedusers%>;
 
-    var infowindow = new google.maps.InfoWindow();
+      var map = new google.maps.Map(document.getElementById('map'), {
+                             zoom: 12,
+                             mapTypeId: google.maps.MapTypeId.ROADMAP
+                           });
 
-    var providerMarker, reciverMarker, i;
-    var markers = new Array();
+                           var infowindow = new google.maps.InfoWindow();
 
-    if(utilizerLocations.length > 0){
-    	 for (i = 0; i < utilizerLocations.length; i++) {
-   	    	reciverMarker = new google.maps.Marker({
-   	          position: new google.maps.LatLng(utilizerLocations[i][1], utilizerLocations[i][2]),
-   	          map: map,
-   	     	  //animation : google.maps.Animation.BOUNCE
-   	          icon: "resources/marker1.png"
-   	        });
+                           var providerMarker, reciverMarker, mappedUserMarker, i;
+                           var markers = new Array();
 
-   	        markers.push(reciverMarker);
+                           if(utilizerLocations.length > 0){
+                           	 for (i = 0; i < utilizerLocations.length; i++) {
+                          	    	reciverMarker = new google.maps.Marker({
+                          	          position: new google.maps.LatLng(utilizerLocations[i][1], utilizerLocations[i][2]),
+                          	          map: map,
+                          	     	  //animation : google.maps.Animation.BOUNCE
+                          	          icon: "resources/marker1.png"
+                          	        });
 
-   	        google.maps.event.addListener(reciverMarker, 'click', (function(reciverMarker, i) {
-   	          return function() {
-   	            infowindow.setContent(utilizerLocations[i][0]);
-   	            infowindow.open(map, reciverMarker);
-   	          }
-   	        })(reciverMarker, i));
-   	      }
-    }
-    	
-    if(providerLocations.length > 0){
-    	for (i = 0; i < providerLocations.length; i++) {
-   	      providerMarker = new google.maps.Marker({
-   	        position: new google.maps.LatLng(providerLocations[i][1], providerLocations[i][2]),
-   	        map: map,
-   	        //animation : google.maps.Animation.BOUNCE
-   	        icon: "resources/marker2.png"
-   	      });
+                          	        markers.push(reciverMarker);
 
-   	      markers.push(providerMarker);
+                          	        google.maps.event.addListener(reciverMarker, 'click', (function(reciverMarker, i) {
+                          	          return function() {
+                          	            infowindow.setContent(utilizerLocations[i][0]);
+                          	            infowindow.open(map, reciverMarker);
+                          	          }
+                          	        })(reciverMarker, i));
+                          	      }
+                           }
+                           	
+                           if(providerLocations.length > 0){
+                           	for (i = 0; i < providerLocations.length; i++) {
+                          	      providerMarker = new google.maps.Marker({
+                          	        position: new google.maps.LatLng(providerLocations[i][1], providerLocations[i][2]),
+                          	        map: map,
+                          	        //animation : google.maps.Animation.BOUNCE
+                          	        icon: "resources/marker2.png"
+                          	      });
 
-   	      google.maps.event.addListener(providerMarker, 'click', (function(providerMarker, i) {
-   	        return function() {
-   	          infowindow.setContent(providerLocations[i][0]);
-   	          infowindow.open(map, providerMarker);
-   	        }
-   	      })(providerMarker, i));
-   	    }
-    }
-    
-    function AutoCenter() {
-      //  Create a new viewpoint bound
-      var bounds = new google.maps.LatLngBounds();
-      //  Go through each...
-      $.each(markers, function (index, reciverMarker) {
-      bounds.extend(reciverMarker.position);
-      });
-      //  Fit these bounds to the map
-      map.fitBounds(bounds);
-    }
-    AutoCenter();
+                          	      markers.push(providerMarker);
+
+                          	      google.maps.event.addListener(providerMarker, 'click', (function(providerMarker, i) {
+                          	        return function() {
+                          	          infowindow.setContent(providerLocations[i][0]);
+                          	          infowindow.open(map, providerMarker);
+                          	        }
+                          	      })(providerMarker, i));
+                          	    }
+                           }
+                           
+                           if(mappedUserLocs.length > 0){
+                          	 for (i = 0; i < mappedUserLocs.length; i++) {
+                          			mappedUserMarker = new google.maps.Marker({
+                         	          position: new google.maps.LatLng(mappedUserLocs[i][1], mappedUserLocs[i][2]),
+                         	          map: map,
+                         	     	  //animation : google.maps.Animation.BOUNCE
+                         	          icon: "resources/marker3.png"
+                         	        });
+
+                         	        markers.push(mappedUserMarker);
+
+                         	        google.maps.event.addListener(mappedUserMarker, 'click', (function(mappedUserMarker, i) {
+                         	          return function() {
+                         	            infowindow.setContent(mappedUserLocs[i][0]);
+                         	            infowindow.open(map, mappedUserMarker);
+                         	          }
+                         	        })(mappedUserMarker, i));
+                         	      }
+                          }
+                           
+                           function AutoCenter() {
+                             //  Create a new viewpoint bound
+                             var bounds = new google.maps.LatLngBounds();
+                             //  Go through each...
+                             $.each(markers, function (index, reciverMarker) {
+                             bounds.extend(reciverMarker.position);
+                             });
+                             //  Fit these bounds to the map
+                             map.fitBounds(bounds);
+                           }
+                           AutoCenter();
 
   </script>
   <div class="layout">   

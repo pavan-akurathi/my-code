@@ -5,7 +5,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -201,7 +203,7 @@ public class CabController {
 												
 					}
 					takers.append("]");				
-					model.addAttribute("takers", takers.toString());
+					model.addAttribute("others", takers.toString());
 					model.addAttribute("currentPool",currentPool.toString());
 				}
 				
@@ -223,7 +225,7 @@ public class CabController {
 						}
 					
 					providers.append("]"); 
-					model.addAttribute("providers", providers.toString());
+					model.addAttribute("others", providers.toString());
 					
 				}
 			}
@@ -251,30 +253,62 @@ public class CabController {
 			List<User> users = cabRepository.findAll();	
 			StringBuilder providers = new StringBuilder();
 			StringBuilder takers = new StringBuilder();
+			StringBuilder mappedusers = new StringBuilder();
 			providers.append("["); takers.append("[");
+			mappedusers.append("[");
+			Set<String> usersChecked = new HashSet<String>(); 
 			for(User u: users)
-			{
-				if(u.getIsEnrolled().equals("Y") && u.getLocation()!=null && u.getLocation().length == 2)
+			{	
+				if(u.getIsEnrolled()!=null && u.getIsEnrolled().equals("Y") && u.getLocation()!=null && u.getLocation().length == 2)
 				{
-					if(u.getPoolMode().equals("P"))
+					if(u.getProviderUserId()!=null && !usersChecked.contains(u.getId()))
 					{
-						if(providers.toString().length() > 1)
-							providers.append(",");
-						providers.append("['").append(u.getFirstName()).append(" ").append(u.getLastName()).append("',")
-						.append(u.getLocation()[1]).append(",").append(u.getLocation()[0]).append(",'").append("P").append("']");
+						usersChecked.add(u.getId());
+						usersChecked.add(u.getProviderUserId());
+						if(mappedusers.toString().length() > 1)
+							mappedusers.append(",");
+						mappedusers.append("['").append(u.getFirstName()).append(" ").append(u.getLastName()).append("<br>")
+						.append(u.getId()).append("<br>").append(u.getPhoneNumber()).append("<br>").append(u.getEmail())
+						.append("',")
+						.append(u.getLocation()[1]).append(",").append(u.getLocation()[0]).append(",'").append("M").append("']");
+						
+						u = cabRepository.findOne(u.getProviderUserId());	
+						
+						mappedusers.append(",['").append(u.getFirstName()).append(" ").append(u.getLastName()).append("<br>")
+						.append(u.getId()).append("<br>").append(u.getPhoneNumber()).append("<br>").append(u.getEmail())
+						.append("',")
+						.append(u.getLocation()[1]).append(",").append(u.getLocation()[0]).append(",'").append("M").append("']");
 					}
-					else
+					else if(u.getPoolMode().equals("P") && !usersChecked.contains(u.getId()))
 					{
+						List<User> pu = cabRepository.findByProviderUserId(u.getId());
+						if(!(pu!=null && pu.size()>0))
+						{
+							usersChecked.add(u.getId());
+							if(providers.toString().length() > 1)
+								providers.append(",");
+							providers.append("['").append(u.getFirstName()).append(" ").append(u.getLastName()).append("<br>")
+							.append(u.getId()).append("<br>").append(u.getPhoneNumber()).append("<br>").append(u.getEmail())
+							.append("',")
+							.append(u.getLocation()[1]).append(",").append(u.getLocation()[0]).append(",'").append("P").append("']");
+						}
+					}
+					else if(u.getPoolMode().equals("N") && !usersChecked.contains(u.getId()))
+					{
+						usersChecked.add(u.getId());
 						if(takers.toString().length() > 1)
 							takers.append(",");
-						takers.append("['").append(u.getFirstName()).append(" ").append(u.getLastName()).append("',")
+						takers.append("['").append(u.getFirstName()).append(" ").append(u.getLastName()).append("<br>")
+						.append(u.getId()).append("<br>").append(u.getPhoneNumber()).append("<br>").append(u.getEmail())
+						.append("',")
 						.append(u.getLocation()[1]).append(",").append(u.getLocation()[0]).append(",'").append("N").append("']");
 					}
 				}
 			}
-			providers.append("]"); takers.append("]");
+			providers.append("]"); takers.append("]");mappedusers.append("]");
 			model.addAttribute("providers", providers.toString());
 			model.addAttribute("takers", takers.toString());
+			model.addAttribute("mappedusers", mappedusers.toString());			
 			model.addAttribute("username", userId);
 			return "reports";
 		}
@@ -304,12 +338,14 @@ public class CabController {
 						.replace(EmailTemplate.FIRST_NAME, user.getFirstName()).replace(EmailTemplate.LAST_NAME, user.getLastName())
 						.replace(EmailTemplate.MOBILE, user.getPhoneNumber()).replace(EmailTemplate.EMAIL, user.getEmail())
 						.replace(EmailTemplate.ADDRESS, user.getAddressDesc());
+				logger.info("SENDING EMAIL");
 				CommonUtil.sendEmail(prevProvider.getEmail(),EmailTemplate.SUB_CAR_POOL_DROPPED_PROVIDER, emailBody);
 				// send email to the user that he is de-tagged from his current pool
 				emailBody = EmailTemplate.TEXT_CAR_POOL_DROPPED_USER.replace(EmailTemplate.RECEIPIENT, user.getFirstName())
 						.replace(EmailTemplate.FIRST_NAME, prevProvider.getFirstName()).replace(EmailTemplate.LAST_NAME, prevProvider.getLastName())
 						.replace(EmailTemplate.MOBILE, prevProvider.getPhoneNumber()).replace(EmailTemplate.EMAIL, prevProvider.getEmail())
 						.replace(EmailTemplate.ADDRESS, prevProvider.getAddressDesc());
+				logger.info("SENDING EMAIL");
 				CommonUtil.sendEmail(user.getEmail(),EmailTemplate.SUB_CAR_POOL_DROPPED_USER, emailBody);
 			}
 			user.setProviderUserId(avlVehicleChk);
@@ -336,7 +372,9 @@ public class CabController {
 			if(user.getProviderUserId()!=null)
 			{				
 				User providerUser = cabRepository.findOne(user.getProviderUserId());
-				if(prevProviderUserId!=null && !prevProviderUserId.equals(avlVehicleChk))
+				if(prevProviderUserId ==null)
+					prevProviderUserId = "";
+				if(!prevProviderUserId.equals(avlVehicleChk))
 				{
 					providerUser.setPickCount(String.valueOf(Integer.parseInt(providerUser.getPickCount()!=null?providerUser.getPickCount():"0")+1));
 					cabRepository.save(providerUser);
@@ -345,6 +383,7 @@ public class CabController {
 							.replace(EmailTemplate.FIRST_NAME, user.getFirstName()).replace(EmailTemplate.LAST_NAME, user.getLastName())
 							.replace(EmailTemplate.MOBILE, user.getPhoneNumber()).replace(EmailTemplate.EMAIL, user.getEmail())
 							.replace(EmailTemplate.ADDRESS, user.getAddressDesc());
+					logger.info("SENDING EMAIL");
 					CommonUtil.sendEmail(providerUser.getEmail(),EmailTemplate.SUB_CAR_POOL_ENROLLED_PROVIDER, emailBody);
 					// send email to the user that he is de-tagged from his current pool
 					emailBody = EmailTemplate.TEXT_CAR_POOL_ENROLLED_USER.replace(EmailTemplate.RECEIPIENT, user.getFirstName())
@@ -352,6 +391,7 @@ public class CabController {
 							.replace(EmailTemplate.MOBILE, providerUser.getPhoneNumber()).replace(EmailTemplate.EMAIL, providerUser.getEmail())
 							.replace(EmailTemplate.ADDRESS, providerUser.getAddressDesc());
 					CommonUtil.sendEmail(user.getEmail(),EmailTemplate.SUB_CAR_POOL_ENROLLED_USER, emailBody);
+					logger.info("SENDING EMAIL");
 				}
 				String currentPool = providerUser.getFirstName()+ " "+providerUser.getLastName()+" | "+providerUser.getPhoneNumber()+" | "+providerUser.getEmail();
 				model.addAttribute("currentPool",currentPool);	
@@ -395,9 +435,9 @@ public class CabController {
 			boolean isSentEmail = false;
 			isStatusUpdate = !(user.getIsEnrolled()!= null && enrolledStatus.equals(user.getIsEnrolled()));
 			isPoolModeUpdate = !(user.getPoolMode()!= null && poolMode.equals(user.getPoolMode()));
-			if(isStatusUpdate)
+			if(isStatusUpdate && user.getIsEnrolled()!= null)
 			{
-				if(user.getIsEnrolled()!= null && user.getIsEnrolled().equals("N"))
+				if(user.getIsEnrolled().equals("N"))
 				{					
 						if(user.getPoolMode().equals("N"))
 						{
@@ -434,7 +474,7 @@ public class CabController {
 				}								
 			}
 			
-			if(isPoolModeUpdate)
+			if(isPoolModeUpdate && user.getPoolMode()!= null)
 			{
 					if(user.getPoolMode().equals("N"))
 						{
@@ -497,7 +537,7 @@ public class CabController {
 			if(stDate!=null)
 			{
 				SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy~HH:mm");
-				String sd = sdf.format(startDate);
+				String sd = sdf.format(stDate);
 				sDate = sd.split("~")[0];
 				sHr = sd.split("~")[1].split(":")[0];
 				sMin = sd.split("~")[1].split(":")[1];
@@ -509,7 +549,7 @@ public class CabController {
 			{
 				try{
 					SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-					String sttDate = startDate+" "+sHr+":"+sMin;
+					String sttDate = startDate+" "+startTimeHr+":"+startTimeMin;
 					user.setStartDate(sdf.parse(sttDate));
 				}
 				catch(Exception e)
@@ -566,7 +606,7 @@ public class CabController {
 						
 					}
 					takers.append("]");				
-					model.addAttribute("takers", takers.toString());
+					model.addAttribute("others", takers.toString());
 					model.addAttribute("currentPool",currentPool.toString());
 				}
 				
@@ -587,7 +627,7 @@ public class CabController {
 								model.addAttribute("currentPool",currentPool);
 						}					
 					providers.append("]"); 
-					model.addAttribute("providers", providers.toString());
+					model.addAttribute("others", providers.toString());
 					
 				}
 			}
@@ -636,7 +676,7 @@ public class CabController {
 				providers.append("[");
 				for(User u: users)
 				{
-					if(u.getIsEnrolled().equals("Y") && u.getLocation()!=null && u.getLocation().length == 2)
+					if(u.getIsEnrolled()!=null && u.getIsEnrolled().equals("Y") && u.getLocation()!=null && u.getLocation().length == 2)
 					{
 						if(u.getPoolMode().equals("P"))
 						{

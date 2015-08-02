@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import com.verizon.cab.management.domain.UserRoute;
 import com.verizon.cab.management.util.SendGrid.Email;
+import com.verizon.cab.management.util.SendGrid.Response;
 
 public class CommonUtil {
 
@@ -126,8 +127,7 @@ public class CommonUtil {
 	{
 		Vcapenv vcapenv = new Vcapenv();
 		String sendgrid_username = vcapenv.SENDGRID_USERNAME();
-		String sendgrid_password = vcapenv.SENDGRID_PASSWORD();
-
+		String sendgrid_password = vcapenv.SENDGRID_PASSWORD();		
 		SendGrid sendgrid = new SendGrid(sendgrid_username, sendgrid_password);				
 		Email email = new Email();				
 		email.addTo(To);
@@ -135,7 +135,7 @@ public class CommonUtil {
 		email.setSubject(subject);
 		email.setText(text);
 		try{
-			sendgrid.send(email);
+			Response r = sendgrid.send(email);			
 		}catch(Exception e)
 		{
 			System.out.println("exception in sending email:");

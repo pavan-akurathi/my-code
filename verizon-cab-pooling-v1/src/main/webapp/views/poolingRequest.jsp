@@ -34,13 +34,14 @@ String capacity = request.getAttribute("capacity")!=null?(String)request.getAttr
 String addressDesc = request.getAttribute("addressDesc")!=null?(String)request.getAttribute("addressDesc"):"";
 String currentPool = request.getAttribute("currentPool")!=null?(String)request.getAttribute("currentPool"):"";
 String location = request.getAttribute("location")!=null?(String)request.getAttribute("location"):"17.438878,78.381206";
-
+String others = request.getAttribute("others")!=null?(String)request.getAttribute("others"):"[]";
 %>
 	<script>
 	// Default Loc : 17.438878,78.381206
 	var latLong = '<%=location%>';	
 	var latitude = latLong.split(",")[0];
 	var longitude = latLong.split(",")[1];
+	var providerLocations = <%=others%>;
 	$(document).ready(function(){
         $( "#startDate" ).datepicker({
            appendText:"(dd-mm-yy)",
@@ -162,7 +163,7 @@ String location = request.getAttribute("location")!=null?(String)request.getAttr
 					</tr>
 					<tr>
 						<td colspan="2" >
-							<section>
+							<section class="controlSection">
 								<label class="controlLabel">Address Description :  </label> 
 								<input type ="text"  id="addressDesc" name="addressDesc" class="addressDesc" value="<%=addressDesc%>">
 							</section>
