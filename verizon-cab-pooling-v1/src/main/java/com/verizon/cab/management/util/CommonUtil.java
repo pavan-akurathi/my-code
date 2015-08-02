@@ -55,8 +55,7 @@ public class CommonUtil {
 	        loc = new double[2];
 	        loc[0] = ((double) lng / 1E5);
 	        loc[1] = ((double) lat / 1E5);	        
-	        p.setLocation(loc);
-	        p.setSequence(++seq);	        
+	        p.setLocation(loc);	        	        
 	        poly.add(p);
 	        System.out.println(seq+"-"+loc);
 	    }

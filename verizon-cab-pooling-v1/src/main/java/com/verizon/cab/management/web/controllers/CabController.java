@@ -13,6 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.Cloud;
+import org.springframework.data.mongodb.core.geo.Distance;
+import org.springframework.data.mongodb.core.geo.Metrics;
+import org.springframework.data.mongodb.core.geo.Point;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +27,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.verizon.cab.management.domain.User;
 import com.verizon.cab.management.domain.UserRoute;
 import com.verizon.cab.management.repositories.mongodb.CabRepository;
+import com.verizon.cab.management.repositories.mongodb.UserRouteRepository;
 import com.verizon.cab.management.util.CommonUtil;
 import com.verizon.cab.management.util.EmailTemplate;
 
@@ -38,6 +42,9 @@ public class CabController {
 		
 	@Autowired
 	private CabRepository cabRepository;
+	
+	@Autowired
+	private UserRouteRepository userRouteRepository;
 	
 	@Autowired (required=false) Cloud cloud;
 
@@ -396,6 +403,12 @@ public class CabController {
 					CommonUtil.sendEmail(user.getEmail(),EmailTemplate.SUB_CAR_POOL_ENROLLED_USER, emailBody);
 					logger.info("SENDING EMAIL");
 				}
+				StringBuilder providers = new StringBuilder();					
+				providers.append("[");
+				providers.append("['").append(providerUser.getFirstName()).append(" ").append(providerUser.getLastName()).append("',")
+						.append(providerUser.getLocation()[1]).append(",").append(providerUser.getLocation()[0]).append(",'").append("P").append("']");									
+				providers.append("]"); 
+				model.addAttribute("others", providers.toString());
 				String currentPool = providerUser.getFirstName()+ " "+providerUser.getLastName()+" | "+providerUser.getPhoneNumber()+" | "+providerUser.getEmail();
 				model.addAttribute("currentPool",currentPool);	
 			}
@@ -585,9 +598,19 @@ public class CabController {
 			
 				if(isLocUpdate)
 				{
+					List<UserRoute> deleteur = userRouteRepository.findByUserId(user.getId());
+					userRouteRepository.delete(deleteur);
+					logger.info("Route point deleted: "+(deleteur!=null?deleteur.size():0));
 					UserRoute[] routepoints = CommonUtil.getRoutePoints(user.getLocation());
 					if(routepoints!=null)
-						user.setPoints(routepoints);					
+					{
+						for(UserRoute ur: routepoints)
+						{
+							ur.setUserId(user.getId());
+							userRouteRepository.save(ur);
+							
+						}
+					}
 				}
 				if(tUsers!=null)
 				{
@@ -673,26 +696,46 @@ public class CabController {
 				List<User> providerList = new ArrayList<User>();
 				// get all users who are enrolled and of type P and who have start time within less 1 hr this user start time and 
 				//who have pickcount < vehicle capacity and whose route fall within this user location. 
-				List<User> users = cabRepository.findAll();	// to change
-				StringBuilder providers = new StringBuilder();				
-				providers.append("[");
-				for(User u: users)
+				List<String> userIdList = cabRepository.getProvidersList();	// to change
+				if(userIdList!=null && userIdList.size()>0)
 				{
-					if(u.getIsEnrolled()!=null && u.getIsEnrolled().equals("Y") && u.getLocation()!=null && u.getLocation().length == 2)
+					Point point = new Point(user.getLocation()[0], user.getLocation()[1]);
+					Distance distance = new Distance(1, Metrics.KILOMETERS);
+					List<UserRoute> ur = userRouteRepository.findByLocationNear(point, distance);					
+					logger.info("user routes found:"+(ur!=null?ur.size():0));
+					if(ur!= null && ur.size()>0)
 					{
-						if(u.getPoolMode().equals("P"))
+						Set<String> avUserIdSet = new HashSet<String>();
+						for(UserRoute usr: ur)
 						{
-							if(providers.toString().length() > 1)
-								providers.append(",");
-							providers.append("['").append(u.getFirstName()).append(" ").append(u.getLastName()).append("',")
-							.append(u.getLocation()[1]).append(",").append(u.getLocation()[0]).append(",'").append("P").append("']");
-							providerList.add(u);
-						}						
+							avUserIdSet.add(usr.getUserId());
+						}
+						if(user.getProviderUserId()!=null)
+							avUserIdSet.remove(user.getProviderUserId());
+						logger.info("near by providers identified :"+avUserIdSet.size());
+						if(avUserIdSet.size()>0)
+						{
+							List<User> users = cabRepository.getAvUsersList(avUserIdSet);
+							logger.info("user list :"+(users!=null?users.size():0));
+							logger.info("users size provider:: "+users.size());
+							StringBuilder providers = new StringBuilder();				
+							providers.append("[");
+							if(users!=null)
+							for(User u: users)
+							{
+									if(providers.toString().length() > 1)
+											providers.append(",");
+										providers.append("['").append(u.getFirstName()).append(" ").append(u.getLastName()).append("',")
+										.append(u.getLocation()[1]).append(",").append(u.getLocation()[0]).append(",'").append("P").append("']");
+										providerList.add(u);
+							}
+							providers.append("]");
+							logger.info("provider json:"+providers.toString());
+							model.addAttribute("providers", providers.toString());
+							model.addAttribute("providerList",providerList);
+						}
 					}
 				}
-				providers.append("]");
-				model.addAttribute("providers", providers.toString());
-				model.addAttribute("providerList",providerList);
 				return "availableVehicleDetails";
 			}
 		}

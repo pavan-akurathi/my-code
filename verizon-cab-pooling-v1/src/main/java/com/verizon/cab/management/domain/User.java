@@ -26,7 +26,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
   private String isEnrolled;
   private int pickCount; 
   private String providerUserId;
-  private UserRoute[] points;
+  //private UserRoute[] points;
   private int availableCount;
     
     
@@ -54,13 +54,13 @@ public void setAddressDesc(String addressDesc) {
 	this.addressDesc = addressDesc;
 }
 
-public UserRoute[] getPoints() {
+/*public UserRoute[] getPoints() {
 	return points;
 }
 
 public void setPoints(UserRoute[] points) {
 	this.points = points;
-}
+}*/
 
 public String getProviderUserId() {
 	return providerUserId;
