@@ -57,32 +57,27 @@ String username = request.getAttribute("username")!=null?(String)request.getAttr
 		<td style="width:99%;">
 			<div class="block" >
 			
-			<h4>Car Pooling is better for the environment</h4>
-			Having fewer cars on the road means reduced Greenhouse Gas (GHG) emissions and
-			improved air quality. 
+			<h4>How do I place a pooling request?</h4>
+			Whether you want to offer(provider) or need(user) a car pool, Use Pooling Request tab to set your exact home location using the marker on the map and submit.
 			<br>
-			<h4>It is good for your health</h4>
-			According to Environment Canada, air pollution caused by vehicular travel is linked
-			to a number of health concerns including respiratory diseases, cardiovascular disease,
-			allergies and neurological effects.  By car Pooling, you help reduce these health risks
-			for yourself and everyone else. Research also suggests that car Pooling is less
-			stress full than commuting alone.  
+			<h4>I am here to offer car pool, what happens next after I place a pooling request?</h4>
+			Application would scan all user's location data who are in need of car pool and filter only the users who fall in your drive route and alert them over email sharing your contact information. Also you would be alerted too with their contacts on your registered email.
 			<br>
-			<h4>Car Pooling is convenient</h4>
-			Car Pooling provides commuting convenience comparable to driving alone, with less
-			stress and with the added bonus of companionship while you are commuting.  Car Pooling
-			partners establish their own unique rules that best meet the needs of their car pool. 
+			<h4>I am here for need of car pool, what happens next after I place a pooling request?</h4>
+			Application would scan all provider's location data who offer car pool, have a vacant seat in their vehicle and who's drive route falls within your location and show those provider's on the next page after you place the pooling request.
+			You can choose a provider based on your preference and submit request. An email alert will be sent to your provider with your contact details.
 			<br>
-			<h4>Car Pooling improves your commuting options</h4>
-			Car Pooling offers a commuter option that may work better than other methods of
-			transportation. Car Pooling works best for people who live where transit service
-			may be limited or non-existent and compared to other options, car pooling may better
-			fit your schedule. 
+			<h4>What does the marker colors indicate on Report tab?</h4>
+			Red -   indicates users who are in need of car pool.
+			<br>
+			Green - indicates providers who offer car pool.
+			<br>
+			Blue -  indicate users/providers who are already part of car pool.
 			<br>
 			<div class="VZFooter"><img title="Go Green" alt="Go Green" style="margin-left: -18px;"
 			src="resources/goGreen.gif" width = "110%" height = "110%" ></div>
-			<h4>Make new friends</h4>
-			Car Pooling is a great way to make new friends!
+			<h4>What happens if I change my home location after I enrol in a provider's car pool?</h4>
+			We run our backend algorithm to see if you are still a fit in the existing car pool, if not we will drop you from that car pool, alert you and the provider over email and you need to choose a new provider again otherwise its BAU.
 			
 			<br>
 			<h3 style = "font-weight: bold; color: green;">SAVE FUEL. SAVE ENVIRONMENT. GO GREEN.</h3>

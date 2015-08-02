@@ -1,5 +1,7 @@
 package com.verizon.cab.management.domain;
 
+import java.util.Date;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,9 +17,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
   private String zipCode;
   private String addressDesc;
   private String[] location;  
-  private String startDate;
-  private String startTimeHr;
-  private String startTimeMin;
+  private Date startDate;  
   private String poolMode;  
   private String vehicleType;
   private String vehicleCapacity;
@@ -25,32 +25,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
   private String pickCount; 
   private String providerUserId;
   private UserRoute[] points;
-  private String[] availableUserId;
-   
+    
   
-  
-public String getStartDate() {
+public Date getStartDate() {
 	return startDate;
 }
 
-public void setStartDate(String startDate) {
+public void setStartDate(Date startDate) {
 	this.startDate = startDate;
-}
-
-public String getStartTimeHr() {
-	return startTimeHr;
-}
-
-public void setStartTimeHr(String startTimeHr) {
-	this.startTimeHr = startTimeHr;
-}
-
-public String getStartTimeMin() {
-	return startTimeMin;
-}
-
-public void setStartTimeMin(String startTimeMin) {
-	this.startTimeMin = startTimeMin;
 }
 
 public String getAddressDesc() {
@@ -59,14 +41,6 @@ public String getAddressDesc() {
 
 public void setAddressDesc(String addressDesc) {
 	this.addressDesc = addressDesc;
-}
-
-public String[] getAvailableUserId() {
-	return availableUserId;
-}
-
-public void setAvailableUserId(String[] availableUserId) {
-	this.availableUserId = availableUserId;
 }
 
 public UserRoute[] getPoints() {
