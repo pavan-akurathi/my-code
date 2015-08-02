@@ -28,18 +28,23 @@
 	<div id="map" style="width: 99%; height: 80%;"></div>
 	  <script type="text/javascript">
     var providerLocations = [
-      ['Surendra Ganti', 17.439037,78.381209, "P"],
-      ['Pavan Satya', 17.431234,78.383459, "P"],
-      ['Pavan Akruthi', 17.456778,78.38456, "P"],
-      ['Vijaya Bhaskar', 17.475207,78.3827053209, "P"]
+      ['Surendra Ganti <br> test@gmail.com', 17.439037,78.381209, "P"],
+      ['Pavan Satya <br> test@gmail.com', 17.431234,78.383459, "P"],
+      ['Pavan Akruthi <br> test@gmail.com', 17.456778,78.38456, "P"],
+      ['Vijaya Bhaskar <br> test@gmail.com', 17.475207,78.3827053209, "P"]
     ];
     
     var utilizerLocations = [
-                             ['Potnuri Hari', 17.4931265737,78.3457689, "U"],
+                             ['Potnuri Hari <br> test@gmail.com', 17.4931265737,78.3457689, "U"],
                              //['Ramana', 17.76842337,78.96543309, "U"],
-                             ['Arpitha', 17.4931265737,78.34806457, "U"]
+                             ['Arpitha <br> test@gmail.com', 17.4931265737,76.34806457, "U"]
                              //['Jai Lakshmi Narasimha Swamy', 17.456737677,79.3854735679, "U"]
                            ];
+    
+    var mappedUserLocs = [
+                          ['Potnuri Hari <br> test@gmail.com', 17.1231265737,78.3457689, "M"],
+                          ['Arpitha <br> test@gmail.com', 17.1232000,75.34806457, "M"]
+                          ]
 
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 12,
@@ -48,7 +53,7 @@
 
     var infowindow = new google.maps.InfoWindow();
 
-    var providerMarker, reciverMarker, i;
+    var providerMarker, reciverMarker, mappedUserMarker, i;
     var markers = new Array();
 
     if(utilizerLocations.length > 0){
@@ -90,6 +95,26 @@
    	      })(providerMarker, i));
    	    }
     }
+    
+    if(mappedUserLocs.length > 0){
+   	 for (i = 0; i < mappedUserLocs.length; i++) {
+   			mappedUserMarker = new google.maps.Marker({
+  	          position: new google.maps.LatLng(mappedUserLocs[i][1], mappedUserLocs[i][2]),
+  	          map: map,
+  	     	  //animation : google.maps.Animation.BOUNCE
+  	          icon: "resources/marker3.png"
+  	        });
+
+  	        markers.push(mappedUserMarker);
+
+  	        google.maps.event.addListener(mappedUserMarker, 'click', (function(mappedUserMarker, i) {
+  	          return function() {
+  	            infowindow.setContent(mappedUserLocs[i][0]);
+  	            infowindow.open(map, mappedUserMarker);
+  	          }
+  	        })(mappedUserMarker, i));
+  	      }
+   }
     
     function AutoCenter() {
       //  Create a new viewpoint bound

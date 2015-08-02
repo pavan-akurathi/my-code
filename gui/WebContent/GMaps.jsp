@@ -80,13 +80,35 @@
 			});
 	
 			marker1.setMap(map);
-			
+
 			//Add listener
 			google.maps.event.addListener(marker1,'dragend',function(event){
 				latLong = event.latLng;
 			});
 	
 			var markers = [];
+			var providerMarker;
+			var providerMarkers = [];
+			
+			if(providerLocations.length > 0){
+				for (i = 0; i < providerLocations.length; i++) {
+				      providerMarker = new google.maps.Marker({
+				        position: new google.maps.LatLng(providerLocations[i][1], providerLocations[i][2]),
+				        map: map,
+				        icon: "resources/marker3.png"
+				      });
+				      
+				      providerMarkers.push(providerMarker);
+
+				      google.maps.event.addListener(providerMarker, 'click', (function(providerMarker, i) {
+				        return function() {
+				          infowindow.setContent(providerLocations[i][0]);
+				          infowindow.open(map, providerMarker);
+				        }
+				      })(providerMarker, i));
+				    }
+			}
+			
 	
 			// Create the search box and link it to the UI element.
 			var input = /** @type {HTMLInputElement} */

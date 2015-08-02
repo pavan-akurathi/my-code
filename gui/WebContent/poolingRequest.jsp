@@ -28,6 +28,12 @@
 	var latLong = "17.439037,78.381209";
 	var latitude = latLong.split(",")[0];
 	var longitude = latLong.split(",")[1];
+	
+	var providerLocations = [
+	                         ['Surendra Ganti', 17.357937,78.381209],
+	                         ['Pavan A', 17.493437,78.381209]
+	                       ];
+	
 	$(document).ready(function(){
         $( "#startDate" ).datepicker({
            appendText:"(dd-mm-yy)",
