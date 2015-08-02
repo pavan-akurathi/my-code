@@ -162,12 +162,13 @@ String others = request.getAttribute("others")!=null?(String)request.getAttribut
 						</td>
 					</tr>
 					<tr>
-						<td colspan="2" >
+						<td>
 							<section class="controlSection">
 								<label class="controlLabel">Address Description :  </label> 
 								<input type ="text"  id="addressDesc" name="addressDesc" class="addressDesc" value="<%=addressDesc%>">
 							</section>
 						</td>
+						<td>&nbsp;</td>
 					</tr>
 					<tr>
 						<td >

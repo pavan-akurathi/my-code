@@ -30,7 +30,7 @@ public class CommonUtil {
 	    int index = 0, len = encoded.length();
 	    int lat = 0, lng = 0;
 	    int seq = 0;
-	    String[] loc = null;
+	    double[] loc = null;
 	    while (index < len) {
 	        int b, shift = 0, result = 0;
 	        do {
@@ -52,24 +52,24 @@ public class CommonUtil {
 	        lng += dlng;
 
 	        UserRoute p = new UserRoute();
-	        loc = new String[2];
-	        loc[0] = String.valueOf((double) lng / 1E5);
-	        loc[1] = String.valueOf((double) lat / 1E5);	        
+	        loc = new double[2];
+	        loc[0] = ((double) lng / 1E5);
+	        loc[1] = ((double) lat / 1E5);	        
 	        p.setLocation(loc);
-	        p.setSequence(String.valueOf(++seq));	        
+	        p.setSequence(++seq);	        
 	        poly.add(p);
 	        System.out.println(seq+"-"+loc);
 	    }
 	    return poly;
 	}
 	
-	public static UserRoute[] getRoutePoints(String[] sourceLocation)
+	public static UserRoute[] getRoutePoints(double[] sourceLocation)
 	{
 		// Destination always marked as Titus - 17.438878,78.381206
 		   double lat2 = 17.438878;
 		   double lon2 = 78.381206;
-		   double lat1 = Double.parseDouble(sourceLocation[1]);
-		   double lon1 = Double.parseDouble(sourceLocation[0]);
+		   double lat1 = sourceLocation[1];
+		   double lon1 = sourceLocation[0];
 		   UserRoute[] array = null;
 		   String url = "http://maps.googleapis.com/maps/api/directions/json?";
 		   List<NameValuePair> params = new LinkedList<NameValuePair>();

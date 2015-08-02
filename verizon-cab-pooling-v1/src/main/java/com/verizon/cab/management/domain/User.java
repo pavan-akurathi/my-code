@@ -3,6 +3,7 @@ package com.verizon.cab.management.domain;
 import java.util.Date;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
@@ -14,15 +15,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
   private String lastName; 
   private String phoneNumber;
   private String email;
-  private String zipCode;
+  private int zipCode;
   private String addressDesc;
-  private String[] location;  
+  @GeoSpatialIndexed
+  private double[] location;  
   private Date startDate;  
   private String poolMode;  
   private String vehicleType;
-  private String vehicleCapacity;
+  private int vehicleCapacity;
   private String isEnrolled;
-  private String pickCount; 
+  private int pickCount; 
   private String providerUserId;
   private UserRoute[] points;
     
@@ -67,11 +69,11 @@ public void setVehicleType(String vehicleType) {
 	this.vehicleType = vehicleType;
 }
 
-public String getZipCode() {
+public int getZipCode() {
 	return zipCode;
 }
 
-public void setZipCode(String zipCode) {
+public void setZipCode(int zipCode) {
 	this.zipCode = zipCode;
 }
 
@@ -91,19 +93,19 @@ public void setIsEnrolled(String isEnrolled) {
 	this.isEnrolled = isEnrolled;
 }
 
-public String getPickCount() {
+public int getPickCount() {
 	return pickCount;
 }
 
-public void setPickCount(String pickCount) {
+public void setPickCount(int pickCount) {
 	this.pickCount = pickCount;
 }
 
-public String getVehicleCapacity() {
+public int getVehicleCapacity() {
 	return vehicleCapacity;
 }
 
-public void setVehicleCapacity(String vehicleCapacity) {
+public void setVehicleCapacity(int vehicleCapacity) {
 	this.vehicleCapacity = vehicleCapacity;
 }
 
@@ -147,11 +149,11 @@ public String getId() {
     this.email = email;
   }
 
-public String[] getLocation() {
+public double[] getLocation() {
 	return location;
 }
 
-public void setLocation(String[] location) {
+public void setLocation(double[] location) {
 	this.location = location;
 }
   

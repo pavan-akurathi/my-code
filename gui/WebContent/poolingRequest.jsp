@@ -121,6 +121,15 @@
 						</td>
 					</tr>
 					<tr>
+						<td>
+							<section class="controlSection">
+								<label class="controlLabel">Address Description :  </label> 
+								<input type ="text"  id="addressDesc" name="addressDesc" class="addressDesc" value="<%=addressDesc%>">
+							</section>
+						</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
 						<td >
 							<section  class="controlSection">
 								<label class="controlLabel">Start Date :  </label> 

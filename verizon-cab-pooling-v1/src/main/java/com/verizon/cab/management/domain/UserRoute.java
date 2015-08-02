@@ -1,20 +1,23 @@
 package com.verizon.cab.management.domain;
 
-public class UserRoute {  
-   
-  private String[] location;
-  private String sequence;  
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 
-public String[] getLocation() {
+public class UserRoute {  
+  
+  @GeoSpatialIndexed	
+  private double[] location;
+  private int sequence;  
+
+public double[] getLocation() {
 	return location;
 }
-public void setLocation(String[] location) {
+public void setLocation(double[] location) {
 	this.location = location;
 }
-public String getSequence() {
+public int getSequence() {
 	return sequence;
 }
-public void setSequence(String sequence) {
+public void setSequence(int sequence) {
 	this.sequence = sequence;
 }
   
